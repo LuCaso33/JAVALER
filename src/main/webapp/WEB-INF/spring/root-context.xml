@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<import resource="classpath:data/*.xml" />
+		
+	<!-- context에 member를 적음으로써 Autowired의 스캔 범위에 member가 추가된다. -->
+	<!-- 20/07/09 common 추가 -->
+	<!-- 20/07/10 notice 추가 -->
+	<!-- 20/07/20 qna 추가 -->
+	<!-- 20/07/21 board 추가 -->
+	<context:component-scan base-package="board, qna ,notice, common, member, customer"/>
+
+	<!-- mailSender 빈 정의 -->
+	<bean id="mailSender"
+	    class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <property name="host" value="smtp.naver.com" />
+	    <property name="port" value="465" />
+	    <property name="username" value="zealot_s@naver.com" />
+	    <property name="password" value="JUL8P4WNHVQH" />
+	    <property name="javaMailProperties">
+	        <props>
+	            <prop key="mail.transport.protocol">smtp</prop>
+	            <prop key="mail.smtp.auth">true</prop>
+	            <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+	            <prop key="mail.debug">true</prop>
+	            <prop key="mail.smtp.ssl.trust">smtp.naver.com</prop>
+	            <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+	        </props>
+	    </property>
+	</bean>
+
+</beans>
