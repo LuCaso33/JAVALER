@@ -60,7 +60,7 @@ a.btn-empty {
 a.btn-fill-s, a.btn-empty-s {
 	text-align: center;
 	padding: 1px 10px;
-	border:1px solid #c4dafc
+	border:1px solid #c4dafc;
 	border-radius: 3px;
 	box-shadow: 2px 2px 3px #022d72;
 	color: #0000cd;

@@ -156,3 +156,25 @@
         background: #13178E; /*マウスポインタを当てた時にアクティブな色になる*/
         cursor: pointer;/*マウスポインタを当てた時に、カーソルが指の形になる*/
     }
+
+.chatroom-form-control {
+            background-color: #ff7e00; /* 초기 색깔 */
+            border: none;
+            border-radius: 30px;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 0;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+}
+
+.chatroom-form-control:hover {
+            background-color: #ed6600; /* 호버 시 색깔 */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}

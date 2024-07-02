@@ -32,13 +32,13 @@ public class ChatController {
     private SimpMessageSendingOperations messagingTemplate;
 
     @RequestMapping("")
-    public String chat() {
-    	
-//        MemberVO login_info = (MemberVO) session.getAttribute("login_info");
+    public String chat(HttpSession session) {
+    
+        MemberVO login_info = (MemberVO) session.getAttribute("login_info");
 
-//        if (login_info != null && "Y".equals(login_info.getAdmin())) {
-            return "include/chat/chat";
-//        } 
+        if (login_info != null && "Y".equals(login_info.getAdmin())) {
+            return "include/chat/adminChat";
+        } else return "include/chat/userChat";
     }
     
     @MessageMapping("/chat.sendMessage")
@@ -53,22 +53,26 @@ public class ChatController {
     public ChatMessage addUser(@Payload ChatMessage chatMessage,
                                SimpMessageHeaderAccessor headerAccessor) {
         System.out.println("addUser: " + chatMessage.getSender() + " to room " + chatMessage.getRoomId());
-        
+
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         String sender = chatRoomRepository.addUser(chatMessage.getRoomId(), chatMessage.getSender());
         headerAccessor.getSessionAttributes().put("username", sender);
         headerAccessor.getSessionAttributes().put("roomId", chatMessage.getRoomId());
 
+        String roomName = chatRoomRepository.getRoomName(chatMessage.getRoomId());  // roomNameを取得
+
         ChatMessage response = new ChatMessage();
         response.setType(ChatMessage.MessageType.JOIN);
         response.setSender(sender);
-        
-        System.out.println(sender + " 님이 입장하셨습니다。");
         response.setRoomId(chatMessage.getRoomId());
+        response.setContent(roomName);  // roomNameをメッセージのcontentに設定
+        System.out.println(sender + " 님이 입장하셨습니다。");
+
         messagingTemplate.convertAndSend("/topic/public/" + chatMessage.getRoomId(), response);
 
         return response;
     }
+
 
     @GetMapping("/chatrooms")
     public ResponseEntity<List<ChatRoom>> getChatRoomList() {

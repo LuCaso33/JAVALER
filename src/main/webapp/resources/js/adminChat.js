@@ -1,20 +1,20 @@
 'use strict';
 
-var chatRoomPage = document.getElementById('chatroom-page');
-var chatRoomList = document.getElementById('chatroom-list');
-var chatRoomForm = document.getElementById('chatroom-name-form');
-var roomnameInput = document.getElementById('roomname');
-var usernamePage = document.getElementById('username-page');
-var chatPage = document.getElementById('chat-page');
-var exitButton = document.getElementById('exit-chat-room');
-var usernameForm = document.getElementById('usernameForm');
-var messageForm = document.getElementById('messageForm');
-var messageInput = document.getElementById('message');
-var messageArea = document.getElementById('messageArea');
+var chatRoomPage = document.querySelector('#chatroom-page');
+var chatRoomList = document.querySelector('#chatroom-list');
+var chatRoomForm = document.querySelector('#chatroom-name-form');
+var roomnameInput = document.querySelector('#roomname');
+var usernamePage = document.querySelector('#username-page');
+var chatPage = document.querySelector('#chat-page');
+var exitButton = document.querySelector('#exit-chat-room');
+var usernameForm = document.querySelector('#usernameForm');
+var messageForm = document.querySelector('#messageForm');
+var messageInput = document.querySelector('#message');
+var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
-var username = generateUUID();
+var username = 'admin';
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -36,6 +36,7 @@ function introPage(event) {
                 var chatRoomElement = document.createElement('li');
                 chatRoomElement.classList.add('chatroom');
                 chatRoomElement.setAttribute('roomId', item.roomId);
+                chatRoomElement.setAttribute('roomName', item.roomName);  // roomName属性を追加
                 chatRoomElement.setAttribute('onclick', 'chatRoomClick(this)');
 
                 var roomnameElement = document.createElement('span');
@@ -56,11 +57,14 @@ function introPage(event) {
 }
 
 function chatRoomClick(room) {
+    console.log("chatRoomClick関数呼び出し");
     chatRoomPage.classList.add('hidden');
-    //usernamePage.classList.remove('hidden');
 
     var roomId = room.getAttribute('roomId');
+    var roomName = room.getAttribute('roomName');  // roomName属性を取得
+    
     var url = "http://192.168.0.129:8080/chat/roomname?roomId=" + roomId;
+
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -70,17 +74,20 @@ function chatRoomClick(room) {
         })
         .then(data => {
             localStorage.setItem('roomName', data);
+            localStorage.setItem('roomId', roomId);
+            chatPage.classList.remove('hidden');
+            username = 'admin';
+            connect();  // `event`を渡さずに呼び出
+        })
+        .catch(error => {
+            console.error('Error fetching room name:', error);
         });
 
     localStorage.setItem('roomId', roomId);
-    chatPage.classList.remove('hidden');
-    username = "admin";
-    connect(event);
-    //usernamePage.classList.add('hidden');
-        
 }
 
-function createChatRoom(event) {
+
+/*function createChatRoom(event) {
     event.preventDefault(); // 페이지가 다시 로드 되는 것을 막는다.
     var selectedRoom = document.querySelector('input[name="roomname"]:checked');
     var nameText = selectedRoom ? selectedRoom.value : '';
@@ -114,11 +121,12 @@ function createChatRoom(event) {
 	connect(event);
 
         });
-}
+}*/
 
 function connect(event) {
+	
+    
     if (username) {
-
 
         var socket = new SockJS('/chat/ws');
         stompClient = Stomp.over(socket);
@@ -127,18 +135,20 @@ function connect(event) {
 	    console.log("connect関数でサブスクライブ完了");
     }
 	    console.log("connect関数呼び出し成功");
+	    
     event.preventDefault();
 }
 
 function onConnected() {
-    //localstorage에서 아이템 꺼내기
-    var roomId = localStorage.getItem('roomId');
-    var roomName = localStorage.getItem('roomName');
+    console.log("onConnected関数呼び出し");
+    console.log("roomId: " + localStorage.getItem('roomId'));
+    console.log("roomName: " + localStorage.getItem('roomName'));
 
-    var roomnameElement = document.querySelectorAll('#chat-page .chat-header h2');
-    roomnameElement.innerText = roomName;
+    //var roomnameElement = document.querySelector('#chat-page .chat-header h2');
+    //roomnameElement.innerText = localStorage.getItem('roomName');
 
     // Subscribe to the Public Topic
+    var roomId = localStorage.getItem('roomId');
     stompClient.subscribe('/topic/public/' + roomId, onMessageReceived);
 
     // Tell your username to the server
@@ -148,17 +158,18 @@ function onConnected() {
         JSON.stringify({ sender: username, type: 'JOIN', roomId: roomId })
     );
 
-    //Server에서 받은 sender의 값을 현재 session의 username에 대입
-    stompClient.subscribe('/topic/chat.addUser', function(response) {
-        username = JSON.parse(response.body).sender;
-        console.log("Received addUser response: " + response.body);
-    });
-
     connectingElement.classList.add('hidden');
 }
 
+/*    //Server에서 받은 sender의 값을 현재 session의 username에 대입
+    stompClient.subscribe('/topic/chat.addUser', function(response) {
+        username = JSON.parse(response.body).sender;
+        console.log("Received addUser response: " + response.body);
+    });*/
 
-function exitChatRoom(event) {
+
+function exitChatRoom(event){
+	console.log("exitChatRoom関数呼び出し成功");
     stompClient.unsubscribe();
     localStorage.removeItem('roomId');
 
@@ -174,6 +185,7 @@ function onError(error) {
 }
 
 function sendMessage(event) {
+	console.log("sendMessage関数呼び出し");
     var messageContent = messageInput.value.trim();
     var roomId = localStorage.getItem('roomId');
 
@@ -194,21 +206,31 @@ function sendMessage(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
-    var messageElement = document.createElement('li');
-    var textElement = document.createElement('p');
-    var messageText; // messageText をここで定義します
+    var container = document.getElementById('messageArea');
 
-    if (message.type === 'JOIN' && message.admin === 'Y') {
+    if (message.type === 'JOIN' && message.sender === 'admin') {
+        var messageElement = document.createElement('li');
         messageElement.classList.add('event-message');
-        message.content = '接続完了。チャットを開始します。';
-        messageText = document.createTextNode(message.content); // messageText をここで設定します
+
+        var usernameElement = document.createElement('span');
+        usernameElement.innerText = 'ジャバラー';
+        messageElement.appendChild(usernameElement);
+
+        var textElement = document.createElement('p');
+        textElement.innerText = '接続完了。チャットを開始します。';
+        messageElement.appendChild(textElement);
+
+        container.appendChild(messageElement);
     } else if (message.type === 'LEAVE') {
+        var messageElement = document.createElement('li');
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
-        messageText = document.createTextNode(message.content); // messageText をここで設定します
-    } else {
-        var container = document.getElementById('messageArea');
 
+        var textElement = document.createElement('p');
+        textElement.innerText = message.sender + ' left!';
+        messageElement.appendChild(textElement);
+
+        container.appendChild(messageElement);
+    } else {
         if (message.sender === username) {
             var messageDiv = createMessageElement(message.sender, message.content, 'bms_right');
         } else {
@@ -220,22 +242,8 @@ function onMessageReceived(payload) {
         var messageBoxClearDiv = document.createElement('div');
         messageBoxClearDiv.classList.add('bms_clear');
         messageDiv.parentNode.insertBefore(messageBoxClearDiv, messageDiv.nextSibling);
-	    messageArea.appendChild(messageElement);
-	    messageArea.scrollTop = messageArea.scrollHeight;
-
-        return; // 既にメッセージを表示しているので、これ以降の処理は不要です
     }
 
-    var usernameElement = document.createElement('span');
-    var usernameText = document.createTextNode(message.sender);
-    usernameElement.appendChild(usernameText);
-    messageElement.appendChild(usernameElement);
-
-    textElement.appendChild(messageText); // messageText が適切に設定されていることを確認します
-    messageElement.appendChild(textElement);
-    
-    //　スクロールバーを更新
-    messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
@@ -266,6 +274,12 @@ function createMessageElement(sender, content, alignment) {
     var messageDiv = document.createElement('div');
     messageDiv.classList.add('bms_message', alignment);
 
+    if (sender !== 'admin') {
+		var headerElement = document.createElement('h2');
+		headerElement.innerText = "ユーザー";
+		messageDiv.appendChild(headerElement);
+	}
+
     var messageBoxDiv = document.createElement('div');
     messageBoxDiv.classList.add('bms_message_box');
 
@@ -286,8 +300,7 @@ function createMessageElement(sender, content, alignment) {
 
 document.addEventListener("DOMContentLoaded", introPage, true);
 
-chatRoomForm.addEventListener('submit', createChatRoom, true);
+//chatRoomForm.addEventListener('submit', createChatRoom, true);
 //usernameForm.addEventListener('submit', connect, true);
 messageForm.addEventListener('submit', sendMessage, true);
-messageFormAdmin.addEventListener('submit', sendMessageAdmin, true);
 exitButton.addEventListener('click', exitChatRoom, true);
