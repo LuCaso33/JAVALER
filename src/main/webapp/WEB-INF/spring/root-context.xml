@@ -13,7 +13,7 @@
 	<!-- 20/07/10 notice 추가 -->
 	<!-- 20/07/20 qna 추가 -->
 	<!-- 20/07/21 board 추가 -->
-	<context:component-scan base-package="board, qna ,notice, common, member, customer"/>
+	<context:component-scan base-package="board, qna ,notice, common, member, customer, chat"/>
 
 	<!-- mailSender 빈 정의 -->
 	<bean id="mailSender"
