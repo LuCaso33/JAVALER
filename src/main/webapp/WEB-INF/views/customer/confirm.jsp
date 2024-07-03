@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
 <title>신청 완료</title>
 </head>
 <body>
@@ -12,7 +11,7 @@
    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
       <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">신청 완료</h1>
-        <p class="col-md-8 fs-4">관리자가 결제정보를 확인하고 추후 연락드리겠습니다.</p>      
+        <p class="col-md-8 fs-4">관리자가 신청 정보를 확인하고 추후 연락드리겠습니다.</p>      
       </div>
     </div>
   	

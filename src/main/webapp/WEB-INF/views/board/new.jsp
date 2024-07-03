@@ -6,7 +6,7 @@
 <title>board new jsp</title>
 </head>
 <body>
-<h3>방명록 글쓰기</h3>
+<h3>채용신청 작성</h3>
 <form action="insert.bo" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>

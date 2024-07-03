@@ -12,7 +12,7 @@ table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 </style>
 </head>
 <body>
-<h3>방명록</h3>
+<h3>채용신청</h3>
 <form id="list" method="post" action="">
 	<input type="hidden" name="curPage" value="1" />
 	<input type="hidden" name="id" />

@@ -26,4 +26,7 @@
 		INSERT INTO member(name, id, pw, gender, email, birth, post, addr, tel)
 		VALUES (#{name }, #{id }, #{pw }, #{gender }, #{email }, #{birth }, #{post }, #{addr }, #{tel })
 	</insert>
+	<delete id="delete">
+        DELETE FROM member WHERE id=#{id} AND pw=#{pw}
+    </delete>
 </mapper>

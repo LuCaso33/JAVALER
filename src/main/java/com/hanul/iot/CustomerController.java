@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import customer.CustomerServiceImpl;
 import customer.CustomerVO;
+import member.MemberVO;
 
 @Controller
 public class CustomerController {
@@ -29,6 +30,29 @@ public class CustomerController {
 		model.addAttribute("list", list);
 		return "customer/list";
 	}
+	
+    // 공통 메소드: 세션에서 ID를 가져와서 사용자 정보를 조회하고 모델에 추가 -> 사용자가 이용죽인 서비스 검색
+    private void addCustomerInfoToModel(HttpSession session, Model model) {
+        String writer = (String) session.getAttribute("userId");
+        if (writer != null) {
+        	CustomerVO vo = service.writer_detail(writer);
+            model.addAttribute("vo", vo);
+        }
+    }
+    
+    // 마이페이지 -> 나의 서비스
+    @RequestMapping("myService")
+    public String myService(HttpSession session, Model model) {
+        addCustomerInfoToModel(session, model);
+        return "member/myService";
+    }
+    
+    // 마이페이지 -> 나의 서비스 -> 나의 서비스 수정
+    @RequestMapping("myServiceModify")
+    public String myServiceModify(HttpSession session, Model model) {
+        addCustomerInfoToModel(session, model);
+        return "member/myServiceModify";
+    }
 		
 	//고객 상세 화면 요청
 	@RequestMapping("/detail.cu")
@@ -63,7 +87,9 @@ public class CustomerController {
 	//20/07/02====================================================
 	//신규 고객 등록 처리 요청
 	@RequestMapping("/insert.cu")
-	public String insert(CustomerVO vo) {
+	public String insert(CustomerVO vo, HttpSession session) {
+		
+		vo.setWriter( ((MemberVO) session.getAttribute("login_info")).getId() );
 		//화면에서 입력한 정보를 DB에 저장한 후
 		service.customer_insert(vo);
 		

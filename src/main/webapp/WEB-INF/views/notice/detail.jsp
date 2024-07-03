@@ -8,7 +8,7 @@
 <title>detail JSP</title>
 </head>
 <body>
-<h3>공지글 안내</h3>
+<h3>유지보수 문의</h3>
 <table>
 	<tr>
 		<th class="w-px160">제목</th>
@@ -40,12 +40,14 @@
 <div class="btnSet">
 	<a class="btn-fill" href="list.no?curPage=${page.curPage }&search=${page.search }&keyword=${page.keyword }">목록으로</a>
 	<!-- 관리자인 경우 수정/삭제 가능 -->
-	<core:if test="${login_info.admin eq 'Y' }">
+	<core:if test="${login_info.id eq vo.writer }">
 		<a class="btn-fill" href='modify.no?id=${vo.id }'>수정</a>
+	</core:if>
+	<core:if test="${login_info.id eq vo.writer or login_info.admin eq 'Y' }"> 
 		<a class="btn-fill" onclick="if(confirm('정말 삭제하시겠습니까?')) {href='delete.no?id=${vo.id }' }">삭제</a>
 	</core:if>
-	<!-- 로그인이 된 경우 답글 쓰기 가능 -->
-	<core:if test="${!empty login_info }">
+	<!-- 관리자인 경우 답글 쓰기 가능 -->
+	<core:if test="${login_info.admin eq 'Y' }">
 		<a class="btn-fill" href="reply.no?id=${vo.id }">답글 쓰기</a>
 	</core:if>
 </div>

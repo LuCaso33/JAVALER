@@ -135,6 +135,81 @@ public class MemberController {
         return "member/findUser";
     }
     
+    // 마이페이지 -> 회원정보
+    @RequestMapping("memberDelete")
+    public String memberDelete() {
+        return "member/memberDelete";
+    }
+    
+    // 회원 삭제 처리
+    @ResponseBody
+    @RequestMapping(value = "/memberDelete", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+    public String member_delete(@RequestParam("id") String id,
+                                @RequestParam("pw") String pw, HttpSession session) {
+        // MemberVO 객체 생성 후 id와 pw 설정
+        MemberVO member = new MemberVO();
+        member.setId(id);
+        member.setPw(pw);
+
+        // 회원 삭제 처리
+        boolean result = service.member_delete(member);
+
+        String msg = "<script type='text/javascript'>";
+        if (result) {
+            msg += "alert('회원 탈퇴가 완료되었습니다.');";
+            session.removeAttribute("login_info");
+        } else {
+            msg += "alert('회원 탈퇴에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.');";
+        }
+        msg += "location.href='/iot';"; // 메인 페이지로 이동
+        msg += "</script>";
+
+        return msg;
+    }
+    
+ // 아이디와 비밀번호 찾기 요청 및 이메일 인증을 위한 전송 요청
+    @ResponseBody
+    @RequestMapping(value = "/findUser", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
+    public String findUserAndSendEmail(@RequestParam("email") String email) {
+        MemberVO user = service.findUserByEmail(email);
+        String msg = "<script type='text/javascript'>";
+
+        // 사용자가 존재하는 경우
+        if (user != null) {
+            // 이메일 전송 내용
+            String setFrom = "zealot_s@naver.com"; // 발신 이메일
+            String toMail = email; // 받는 이메일
+            String title = "회원 정보 안내";
+            String content = "회원님의 아이디는 " + user.getId() + "이고, 비밀번호는 " + user.getPw() + "입니다.";
+
+            // 이메일 전송 코드
+            try {
+                MimeMessage message = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+                helper.setFrom(setFrom);
+                helper.setTo(toMail);
+                helper.setSubject(title);
+                helper.setText(content, true);
+                mailSender.send(message);
+
+                // 성공 메시지 출력
+                msg += "alert('회원님의 아이디와 비밀번호를 이메일로 전송했습니다.');";
+            } catch (Exception e) {
+                e.printStackTrace();
+                // 실패 메시지 출력
+                msg += "alert('이메일 전송 중 오류가 발생했습니다. 다시 시도해 주세요.');";
+            }
+        } else {
+            // 사용자가 존재하지 않는 경우
+            msg += "alert('입력하신 이메일로 가입된 계정이 없습니다. 이메일을 다시 확인해 주세요.');";
+        }
+
+        msg += "history.go(-1);"; // 이전 페이지로 돌아가기
+        msg += "</script>";
+        return msg;
+    }
+    
+    /*
     // 아이디와 비밀번호 찾기 요청 처리
     @ResponseBody
     @RequestMapping(value = "/findUser", method = RequestMethod.POST, produces = "text/html; charset=utf-8")
@@ -149,10 +224,9 @@ public class MemberController {
         msg += "history.go(-1);"; // 이전 페이지로 돌아가기
         msg += "</script>";
         return msg;
-    }
-    
-
-    
+    } 
+     */
+   
 	//이메일 인증을 위한 전송 요청
 	@RequestMapping(value = "member/mailCheck", method =  RequestMethod.GET )	
 	@ResponseBody

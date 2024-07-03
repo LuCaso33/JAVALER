@@ -62,21 +62,27 @@
 #list-top ul.common li:not(:last-child) {margin-right: 10px}
 #data-list ul.pharmacy li div:first-child { height:25px; }
 #data-list ul.pharmacy li div:last-child { font-size:14px; }
+
+/* 수정된 스타일 */
+.pharmacy td:nth-child(3),
+.pharmacy td:nth-child(4) {
+    width: 150px; /* 주소와 홈페이지 칸 너비 줄이기 */
+}
+
+.pharmacy td:nth-child(2) {
+    width: 300px; /* 회사소개 칸 너비 늘리기 */
+}
 </style>
 </head>
 <body>
-<h3>공공 데이터</h3>
-<div class="btnSet dataOption">
-	<a class="btn-fill">약국 조회</a>
-	<a class="btn-empty">유기 동물 조회</a>
-</div>
+<h3>글로벌 주식회사에 협력, 의뢰신청을 한 회사 리스트</h3>
 <div id="list-top">
 	<ul class="common">
 		<li>
 			<select id="pageList" class="w-px80">
 				<option value="10">10개씩</option>
-				<option value="20">20개씩</option>
-				<option value="30">30개씩</option>
+				<option value="50">50개씩</option>
+				<option value="100">100개씩</option>
 			</select>
 		</li>
 		<li class="list-view" >
@@ -116,33 +122,25 @@ $('.dataOption a').click(function() {
 
 pharmacy_list(1);
 function pharmacy_list(page) {
-	$.ajax({
-		url:'data/pharmacy',
-		data: { pageNo: page, rows:$('#pageList').val() },
-		success: function(data) {
-			if(viewType=="list") { pharmacy_list_data($(data.item), 0); }
-			else { pharmacy_grid_data($(data.item), 0); }
-			
-			//console.log(data) //한글이 깨지는 현상 발생해서 commonservice와 컨트롤러에서 utf-8로 인코딩해줘야함
-// 			var tag = "<table class='pharmacy'>"
-// 				+ '<tr><th class="w-px200">약국명</th><th class="w-px140" >전화번호</th><th>주소</th></tr>';
-//				
-// 			$(data.item).each(function(){
-// 				tag += "<tr>"
-// 						+ "<td><a class='map' data-x=" + this.XPos + " data-y=" + this.YPos + ">" + this.yadmNm + "</a></td><td>"
-// 						+ (this.telno ? this.telno : '-') + "</td><td class='left'>" + this.addr + "</td>"
-// 					+ "</tr>";
-// 			});
-			
-// 			tag += "</table>";
-// 			$('#data-list').html(tag);
-			makePage( data.count, page );
-		}, error: function(text, req) {
-			alert(text + " : " + req.status)
-		}
-	});
+    $.ajax({
+        url: 'data/pharmacy',
+        data: { pageNo: page, rows: $('#pageList').val() },
+        success: function(data) {
+            if (viewType == "list") {
+                pharmacy_list_data(data, 0); // pharmacy_list_data 함수를 호출하여 데이터 처리
+            } else {
+                pharmacy_grid_data(data, 0); // pharmacy_grid_data 함수를 호출하여 데이터 처리
+            }
+
+            // makePage(data.count, page); // 페이지네이션 처리 함수 호출
+        },
+        error: function(text, req) {
+            alert(text + " : " + req.status);
+        }
+    });
 }
 
+/*
 function makePage( totalList, curPage ) {
 	var page = pageInfo(totalList, curPage, pageList, blockPage);
 	var tag = '';
@@ -176,7 +174,7 @@ function pageInfo (totalList, curPage, pageList, blockPage) {
 	page.beginPage = page.endPage - (blockPage - 1);
 	if( page.endPage > page.totalPage ) { page.endPage = page.totalPage; }
 	return page;
-}
+}*/
 
 function animal_list() {
 
@@ -215,33 +213,37 @@ function pharmacy_grid_data(data, type) {
 
 //그리드 뷰 → 테이블 목록 뷰로 변경
 function pharmacy_list_data(data, type) {
-	var tag = "<table class='pharmacy'>"
-			+ "<tr>"
-				+ "<th class='w-px200'>약국명</th>"
-				+ "<th class='w-px140'>전화번호</th>"
-				+ "<th>주소</th>"
-			+ "</tr>";
-	//type이 0이면 JSON 데이터를 가져옴, 1이면 화면의 텍스트를 가져옴
-	if(type == 0) {
-		data.each(function(){
-			tag += "<tr>"
-					+ "<td><a class='map' data-x=" + this.XPos + " data-y=" + this.YPos + ">" + this.yadmNm + "</a></td><td>"
-					+ (this.telno ? this.telno : '-') + "</td><td class='left'>" + this.addr + "</td>"
-				+ "</tr>";
-		});
-	} else {
-		data.each(function() {
-			var $a = $(this).find('.map');
-			tag += "<tr>"
-					+ "<td><a class='map' data-x='" + $a.data('x') + "' data-y='" + $a.data('y') + "'>" + $a.text() + "</a></td>"
-					+ "<td>" + $(this).children('div:eq(1)').text() + "</td>"
-					+ "<td class='left'>" + $(this).children('div:eq(2)').text() + "</td>";
-			tag += "</tr>";
-		});
-	}
-	
-	tag += "</table>";
-	$("#data-list").html(tag);
+    var tag = "<table class='pharmacy'>"
+            + "<tr>"
+                + "<th class='w-px200'>회사명</th>"
+                + "<th class='w-px140'>회사소개</th>"
+                + "<th>주소</th>"
+                + "<th>홈페이지</th>"
+            + "</tr>";
+
+    // 'tbVEnterprise' 객체 내부의 'row' 배열에 접근하여 데이터를 처리합니다.
+    if (data.tbVEnterprise && data.tbVEnterprise.row) {
+    // jQuery의 $.each()를 사용하여 배열을 반복합니다.
+    $.each(data.tbVEnterprise.row, function(index, item) {
+        var websiteUrl = item.WEBSITE;
+        if (websiteUrl && !websiteUrl.startsWith('http://') && !websiteUrl.startsWith('https://')) {
+            websiteUrl = 'https://' + websiteUrl;
+        }
+        
+        tag += "<tr>"
+            + "<td>" + item.GROUPNAME + "</td>" 
+            + "<td>" + item.SUMMARY + "</td>"
+            + "<td>" + item.DETAILADDR + "</td>"
+            + "<td class='left'><a href='" + websiteUrl + "' target='_blank'>" + websiteUrl + "</a></td>"
+            + "</tr>";
+    });
+}
+ else {
+        console.error("Invalid data format: Missing 'tbVEnterprise' or 'row' property");
+    }
+    
+    tag += "</table>";
+    $("#data-list").html(tag);
 }
 
 //$('.map').click(function(){  }); 페이지가 다 로딩되기전에 준비되는 함수라 작동이 안될수 있다.
@@ -299,7 +301,7 @@ $('#map-background').click(function() {
 	$("#map, #map-background").css("display", "none");
 });
 
-var pageList = 10, blockPage = 10; //페이지당 보여질 목록 수, 블럭당 보여질 페이지 수
+var pageList = 100, blockPage = 10; //페이지당 보여질 목록 수, 블럭당 보여질 페이지 수
 
 
 </script>

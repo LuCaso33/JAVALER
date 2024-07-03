@@ -15,25 +15,29 @@
 	<table class='w-pct60'>
 		<tr>
 			<th class='w-px60'>번호</th>
-			<th class='w-px200'>고객명</th>
-			<th>전화번호</th>
+			<th class='w-px200'>작성자</th>
+			<th>상품내용</th>
 		</tr>
 		<!-- for(꺼낸 배열 변수를 담을 새로운 변수 (String x) : 배열 변수(list)) -->
 		<!-- items : 배열 변수 -->
 		<!-- var : 꺼낸 배열 변수를 담을 새로운 변수 -->
+		<core:if test="${login_info.admin eq 'Y' }">
 		<core:forEach items="${list }" var="vo">
 			<tr>
 				<td>${vo.no }</td>
-				<td><a href='detail.cu?id=${vo.id}'>${vo.name }</a></td>
-				<td>${vo.phone }</td>
+				<td><a href='detail.cu?id=${vo.id}'>${vo.writer }</a></td>
+				<td>${vo.product }</td>
 			</tr>
 		</core:forEach>
+		</core:if>
 	</table>
 	
 	<div class="btnSet">
-		<a class="btn-fill" href="new.cu">예약고객 등록</a>
 		<core:if test="${!empty login_info }">
-			<a class='btn-fill' href="order.cu">신청하기</a>
+			<a class='btn-fill' href="new.cu">신청하기</a>
+		</core:if>
+		<core:if test="${!empty login_info }">
+			<a class='btn-fill' href="order.cu">신청하기(가제_)</a>
 		</core:if>			
 	</div>
 <!-- </div> -->

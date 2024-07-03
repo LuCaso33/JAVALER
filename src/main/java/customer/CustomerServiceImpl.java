@@ -23,6 +23,11 @@ public class CustomerServiceImpl implements CustomerService {
 	public CustomerVO customer_detail(int id) {
 		return dao.customer_detail(id);
 	}
+	
+	@Override
+	public CustomerVO writer_detail(String writer) {
+		return dao.writer_detail(writer);
+	}
 
 	@Override
 	public void customer_update(CustomerVO vo) {

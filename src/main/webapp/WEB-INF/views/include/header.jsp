@@ -77,11 +77,11 @@ header ul li input { display:block; }
 	<div class="category" style="margin-left: 100px;"> 
 		<ul>
 			<li><a href="<core:url value='/' />"><img src="img/logo.png" /></a></li>
-			<li><a href='list.bo' ${category eq 'bo' ? "class='active'" : '' } >방명록</a></li>
-			<li><a href='list.da' ${category eq 'da' ? "class='active'" : '' } >공공 데이터</a></li>
+			<li><a href='list.da' ${category eq 'da' ? "class='active'" : '' } >협력기업</a></li>
 			<li><a href='list.qna' ${category eq 'qna' ? "class='active'" : '' } >프로젝트 문의</a></li>
 			<li><a href='list.no' ${category eq 'no' ? "class='active'" : '' } >유지보수 문의</a></li>
 			<li><a href='list.cu' ${category eq 'cu' ? "class='active'" : '' } >유지보수 신청</a></li>
+			<li><a href='list.bo' ${category eq 'bo' ? "class='active'" : '' } >채용신청</a></li>
 		</ul>
 	</div>
 	
@@ -94,6 +94,7 @@ header ul li input { display:block; }
 					<div class="dropdown-content">
 						<a href="#" onclick="myService()">나의 서비스</a>
 						<a href="#" onclick="memberInfo()">회원정보</a>
+						<a href="#" onclick="memberDelete()">회원탈퇴</a>
 					</div>
 				</li>
 				<li>${login_info.name } [ ${login_info.id } ]</li>
@@ -167,6 +168,10 @@ function myService() {
 
 function memberInfo() {
     window.location.href = "memberInfo"; // 페이지 이동
+}
+
+function memberDelete() {
+	window.location.href = "memberDelete";
 }
 
 </script>

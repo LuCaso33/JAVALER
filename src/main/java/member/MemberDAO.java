@@ -49,9 +49,8 @@ public class MemberDAO implements MemberService {
     }
 
 	@Override
-	public boolean member_delete(String id) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean member_delete(MemberVO vo) {
+		return sql.delete("member.mapper.delete", vo) == 0 ? false : true;
 	}
 
 }

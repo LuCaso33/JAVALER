@@ -1,27 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>modify JSP</title>
+<title>detail JSP</title>
 </head>
 <body>
 <%-- <jsp:include page="/WEB-INF/views/include/header.jsp" /> --%>
 <!-- <div id="content"> -->
-	<h3>[ ${vo.writer } ]고객 정보 수정</h3>
-	<form action="update.cu" method="post">
-		<input type="hidden" name="id" value="${vo.id }" /> 
-		<!-- 수정할 고객을 특정하기 위해 id가 필요한데 수정 내용에는 id가 없으므로 hidden 속성으로 추가 -->
-			<table>
-		<tr>
-			<th class="w-px160">제목</th>
-			<td>서비스 신청에 필요한 정보를 입력해주세요</td>
-		</tr>
-		<tr>
-			<th>작성자</th>
-			<td>${login_info.name }</td>
-		</tr>
-		<tr>
+	<h3>[ ${vo.writer } ]신청 정보</h3>
+	<form action="serviceUpdate" method="post">
+	<table class='w-pct60'>
+<tr>
 			<th>상품</th>
 		<td>
 		<%
@@ -96,45 +87,9 @@
 	</form>
 	<div class='btnSet'>
 		<a class="btn-fill" onclick="$('form').submit()">저장</a>
-		<a class="btn-empty" href="detail.cu?id=${vo.id }">취소</a>
+		<a class='btn-empty' href="#" onclick="myServiceo()">취소</a>
 	</div>
 <!-- </div> -->
 <%-- <jsp:include page="/WEB-INF/views/include/footer.jsp" /> --%>
-<script>
-function toggleInputs() {
-    var checkbox = document.getElementById('webHostingCheckbox');
-    var hiddenInput = document.getElementById('webHostingHidden');
-    var hostingRadios = document.getElementsByName('hostingType');
-    var serverRadios = document.getElementsByName('serverScale');
-    var selectBox = document.getElementById('additionalCapacity');
-
-    if (checkbox.checked) {
-        hiddenInput.value = "YES";
-
-        for (var i = 0; i < hostingRadios.length; i++) {
-            hostingRadios[i].disabled = false;
-        }
-
-        for (var j = 0; j < serverRadios.length; j++) {
-            serverRadios[j].disabled = false;
-        }
-
-        selectBox.disabled = false;
-    } else {
-        hiddenInput.value = "NO";
-
-        for (var i = 0; i < hostingRadios.length; i++) {
-            hostingRadios[i].disabled = true;
-        }
-
-        for (var j = 0; j < serverRadios.length; j++) {
-            serverRadios[j].disabled = true;
-        }
-
-        selectBox.disabled = true;
-    }
-}
-
-</script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <title>board modify jsp</title>
 </head>
 <body>
-<h3>방명록 수정</h3>
+<h3>채용신청 수정</h3>
 <form method="post" action="update.bo" enctype="multipart/form-data">
 	<table>
 		<tr>

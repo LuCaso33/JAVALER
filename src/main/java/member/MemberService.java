@@ -27,6 +27,7 @@ public interface MemberService {
 	
 	//회원의 아이디와 비밀번호 찾기
 	MemberVO findUserByEmail(String email);
+	
 	//회원 정보 탈퇴
-	boolean member_delete(String id);
+	boolean member_delete(MemberVO vo);
 }

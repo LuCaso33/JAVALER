@@ -39,7 +39,7 @@ table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바�
 </style>
 </head>
 <body>
-<h3>방명록 상세 조회</h3>
+<h3>채용신청 상세 조회</h3>
 <table>
 	<tr>
 		<th class="w-px160">제목</th>

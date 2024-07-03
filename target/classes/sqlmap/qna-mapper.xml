@@ -38,18 +38,26 @@
 	</select>
 	
 	<insert id="reply_insert">
-		<!-- 원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다. -->
-		<![CDATA[
-			{CALL DECLARE BEGIN
-				UPDATE qna SET step = step + 1
-				WHERE root = #{root } AND step > #{step };
-				
-				INSERT INTO qna (id, root, title, content, writer, sortation, method, cname, budget, limitDate, url, step, indent, filename, filepath)
-				VALUES (seq_qna.NEXTVAL, #{root }, #{title }, #{content }, #{writer }, #{sortation }, #{method }, #{cname }, #{budget }, #{limitDate }, #{url }, #{step } + 1, #{indent } + 1, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR });
-			END}
-		]]>
+	    <![CDATA[
+	        {CALL DECLARE BEGIN
+	            UPDATE qna SET step = step + 1
+	            WHERE root = #{root} AND step > #{step};
+	            
+	            INSERT INTO qna (id, root, title, content, writer, sortation, method, cname, budget, limitDate, url, step, indent, filename, filepath)
+	            VALUES (seq_qna.NEXTVAL, #{root}, #{title}, #{content}, #{writer}, 
+	                    COALESCE(#{sortation, jdbcType=VARCHAR}, 'default'), 
+	                    COALESCE(#{method, jdbcType=VARCHAR}, 'default'), 
+	                    COALESCE(#{cname, jdbcType=VARCHAR}, 'default'), 
+	                    COALESCE(#{budget, jdbcType=VARCHAR}, 'default'), 
+	                    COALESCE(#{limitDate, jdbcType=VARCHAR}, 'default'), 
+	                    COALESCE(#{url, jdbcType=VARCHAR}, 'default'), 
+	                    #{step} + 1, #{indent} + 1, 
+	                    #{filename, jdbcType=VARCHAR}, 
+	                    #{filepath, jdbcType=VARCHAR});
+	        END}
+	    ]]>
 	</insert>
-	
+
 	<sql id="search_where">
 		<if test="search == 'title' or search == 'content'">
 			WHERE ${search } LIKE '%' || #{keyword } || '%'

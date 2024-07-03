@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>QNA글 조회</h3>
+<h3>프로젝트 문의</h3>
 <table>
 	<tr>
 		<th class="w-px160">제목</th>
@@ -24,30 +24,32 @@
 		<th class="w-px80">조회수</th>
 		<td class="w-px80">${vo.readcnt }</td>
 	</tr>
-	<tr>
-		<th>프로젝트 구분</th>
-			<td colspan="5" class="left">${vo.sortation }</td>
-	</tr>
-	<tr>
-		<th>상담방법</th>
-			<td colspan="5" class="left">${vo.method }</td>
-	</tr>
-	<tr>
-			<th>회사명</th>
-			<td colspan="5" class="left">${vo.cname }</td>
-		</tr>
-		<tr>
-			<th>프로젝트 예산(만원)</th>
-			<td colspan="5" class="left">${vo.budget }</td>
-		</tr>
-		<tr>
-			<th>프로젝트 기한</th>
-			<td colspan="5" class="left">${vo.limitDate }</td>
-		</tr>
-		<tr>
-			<th>참조 사이트</th>
-			<td colspan="5" class="left">${vo.url }</td>
-		</tr>
+	<c:if test="${vo.sortation ne 'default' or vo.method ne 'default' or vo.cname ne 'default' or vo.budget ne 'default' or vo.limitDate ne 'default' or vo.url ne 'default'}">
+    <tr>
+        <th>프로젝트 구분</th>
+        <td colspan="5" class="left">${vo.sortation }</td>
+    </tr>
+    <tr>
+        <th>상담방법</th>
+        <td colspan="5" class="left">${vo.method }</td>
+    </tr>
+    <tr>
+        <th>회사명</th>
+        <td colspan="5" class="left">${vo.cname }</td>
+    </tr>
+    <tr>
+        <th>프로젝트 예산(만원)</th>
+        <td colspan="5" class="left">${vo.budget }</td>
+    </tr>
+    <tr>
+        <th>프로젝트 기한</th>
+        <td colspan="5" class="left">${vo.limitDate }</td>
+    </tr>
+    <tr>
+        <th>참조 사이트</th>
+        <td colspan="5" class="left">${vo.url }</td>
+    </tr>
+	</c:if>
 	<tr>
 		<th>내용</th>
 		<td colspan="5" class="left">${fn:replace(vo.content, crlf, '<br>') }</td>
@@ -65,13 +67,15 @@
 
 <div class="btnSet">
 	<a class="btn-fill" href="list.qna">목록으로</a>
-	<!-- 관리자인 경우 수정 삭제 가능 -->
-	<core:if test="${login_info.admin eq 'Y' }">
+	<!-- 회원인 경우 수정, 관리자는 수정, 삭제 가능 -->
+	<core:if test="${login_info.id eq vo.writer}"> 
 		<a class="btn-fill" href="modify.qna?id=${vo.id }">수정</a>
+	</core:if>
+	<core:if test="${login_info.id eq vo.writer or login_info.admin eq 'Y' }"> 
 		<a class="btn-fill" onclick="if(confirm('정말 삭제하시겠습니까?')) { href='delete.qna?id=${vo.id }' }">삭제</a>
 	</core:if>
-	<!-- 로그인이 된 경우 답글 쓰기 가능 -->
-	<core:if test="${!empty login_info }">
+	<!-- 관리자의 경우 답글 쓰기 가능 -->
+	<core:if test="${login_info.admin eq 'Y' }">
 		<a class="btn-fill" href="reply.qna?id=${vo.id }">답글 쓰기</a>
 	</core:if>
 </div>

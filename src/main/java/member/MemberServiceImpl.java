@@ -48,9 +48,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
 	@Override
-	public boolean member_delete(String id) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean member_delete(MemberVO vo) {
+		return dao.member_delete(vo);
 	}
 
 }

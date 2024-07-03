@@ -5,20 +5,31 @@
 	<select id="detail" resultType="customer.CustomerVO">
 		SELECT * FROM customer WHERE id=#{id }
 	</select>
+	
+	<!-- 나의 서비스 정보 조회 -->
+	<select id="detail_writer" resultType="customer.CustomerVO">
+		SELECT * FROM customer WHERE writer=#{writer}
+	</select>
 
 	<!-- 애스터리스크(*)를 쓰면 ROWNUM 등의 다른 필드를 쓸 수가 없다. -->
 	<select id="list" resultType="customer.CustomerVO">
-		SELECT ROWNUM no, c.* FROM (SELECT * FROM customer ORDER BY name) c
+		SELECT ROWNUM no, c.* FROM (SELECT * FROM customer ORDER BY writer) c
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO customer(name, gender, email, phone)
-		VALUES (#{name }, #{gender }, #{email }, #{phone }) 
+		INSERT INTO customer(writer, product, usagePeriod, webHosting, hostingType, serverScale, webStorage)
+		VALUES (#{writer }, #{product }, #{usagePeriod }, #{webHosting, jdbcType=VARCHAR}, #{hostingType, jdbcType=VARCHAR}, #{serverScale, jdbcType=VARCHAR}, #{webStorage, jdbcType=VARCHAR}) 
 	</insert>
 	
 	<update id="update">
-		UPDATE customer SET gender=#{gender }, email=#{email }, phone=#{phone }
-		WHERE id=#{id }
+	    UPDATE customer SET
+	    product=#{product},
+	    usagePeriod=#{usagePeriod},
+	    webHosting=#{webHosting, jdbcType=VARCHAR},
+	    hostingType=#{hostingType, jdbcType=VARCHAR},
+	    serverScale=#{serverScale, jdbcType=VARCHAR},
+	    webStorage=#{webStorage, jdbcType=VARCHAR}
+	    WHERE id=#{id}
 	</update>
 	
 	<delete id="delete">
