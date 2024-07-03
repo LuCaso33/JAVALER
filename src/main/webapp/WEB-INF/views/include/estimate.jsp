@@ -10,7 +10,7 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.0/minty/bootstrap.min.css"> -->
     <style>
         body {
-          background-color: #ffffff;
+          background-color: #ECF0F1	;
         }
         .container {
           margin: 100px auto; /* 마진 크기를 100px로 줄임 */
@@ -22,7 +22,7 @@
       <style>
         body {
           font-family: Arial, sans-serif;
-          background-color: #ECF0F1;
+          background-color: #ffffff;
         }
   
         .ahg_Quotation_category {
