@@ -1,4 +1,4 @@
-* {
+/* * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -166,7 +166,7 @@ button.accent {
     position: relative;
 }
 
-/* 여기부터  */
+여기부터 
 .form-control {
     display: inline-block;
 }
@@ -246,7 +246,7 @@ button.accent {
     text-align: right;
     right: 10px;
 }
-/* 여기까지 */
+여기까지
 
 
 
@@ -417,4 +417,4 @@ button.accent {
     .chat-header h2 {
         font-size: 1.1em;
     }
-}
+} */

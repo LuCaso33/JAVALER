@@ -2,26 +2,22 @@
 
 var chatRoomPage = document.querySelector('#chatroom-page');
 var chatRoomList = document.querySelector('#chatroom-list');
-var chatRoomForm = document.querySelector('#chatroom-name-form');
-var roomnameInput = document.querySelector('#roomname');
-var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var exitButton = document.querySelector('#exit-chat-room');
-var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
-var username = generateUUID();
+var username = (window.location.pathname.includes('admin')) ? 'admin' : generateUUID();
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
-/*function introPage(event) {
+function introPage(event) {
     var url = "http://192.168.0.129:8080/chat/chatrooms";
     fetch(url)
         .then(response => {
@@ -36,6 +32,7 @@ var colors = [
                 var chatRoomElement = document.createElement('li');
                 chatRoomElement.classList.add('chatroom');
                 chatRoomElement.setAttribute('roomId', item.roomId);
+                chatRoomElement.setAttribute('roomName', item.roomName);
                 chatRoomElement.setAttribute('onclick', 'chatRoomClick(this)');
 
                 var roomnameElement = document.createElement('span');
@@ -43,7 +40,7 @@ var colors = [
                 roomnameElement.appendChild(roonameText);
 
                 var userCountElement = document.createElement('p');
-                var userCountText = document.createTextNode('현재 인원 : ' + item.userCount + '명');
+                var userCountText = document.createTextNode('現在の人数 : ' + item.userCount + '名');
                 userCountElement.appendChild(userCountText);
 
                 chatRoomElement.appendChild(roomnameElement);
@@ -53,10 +50,39 @@ var colors = [
                 chatRoomPage.scrollTop = chatRoomPage.scrollHeight;
             });
         });
-}*/
+}
+
+function chatRoomClick(room) {
+    console.log("chatRoomClick関数呼び出し");
+    chatRoomPage.classList.add('hidden');
+
+    var roomId = room.getAttribute('roomId');
+    var roomName = room.getAttribute('roomName');
+
+    var url = "http://192.168.0.129:8080/chat/roomname?roomId=" + roomId;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            localStorage.setItem('roomName', data);
+            localStorage.setItem('roomId', roomId);
+            chatPage.classList.remove('hidden');
+            connect();
+        })
+        .catch(error => {
+            console.error('Error fetching room name:', error);
+        });
+
+    localStorage.setItem('roomId', roomId);
+}
 
 function createChatRoom(roomName) {
-    var url = "http://192.168.0.126:8080/chat/chatroom";
+    var url = "http://192.168.0.129:8080/chat/chatroom";
     fetch(url, {
         method: 'POST',
         headers: {
@@ -82,51 +108,43 @@ function createChatRoom(roomName) {
             formElement.remove();
         }
 
-        connect();  // `event`を渡さずに呼び出す
+        connect();
     })
     .catch(error => {
         console.error('Error creating chat room:', error);
     });
 }
 
-function connect(event) {
+function connect() {
     if (username) {
-
-
         var socket = new SockJS('/chat/ws');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
-	    console.log("connect関数でサブスクライブ完了");
+        console.log("connect関数でサブスクライブ完了");
     }
-	    console.log("connect関数呼び出し成功");
-    event.preventDefault();
+    console.log("connect関数呼び出し成功");
 }
 
 function onConnected() {
-    //localstorage에서 아이템 꺼내기
+    console.log("onConnected関数呼び出し");
+    console.log("roomId: " + localStorage.getItem('roomId'));
+    console.log("roomName: " + localStorage.getItem('roomName'));
+
     var roomId = localStorage.getItem('roomId');
-/*    var roomName = localStorage.getItem('roomName');
-
-    var roomnameElement = document.querySelectorAll('#chat-page .chat-header h2');
-    roomnameElement.innerText = roomName;*/
-
-    // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public/' + roomId, onMessageReceived);
 
-    // Tell your username to the server
     console.log("Sending addUser message");
     stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({ sender: username, type: 'JOIN', roomId: roomId })
     );
 
-
     connectingElement.classList.add('hidden');
 }
 
-
-/*function exitChatRoom(event) {
+function exitChatRoom(event) {
+    console.log("exitChatRoom関数呼び出し成功");
     stompClient.unsubscribe();
     localStorage.removeItem('roomId');
 
@@ -134,7 +152,7 @@ function onConnected() {
     chatRoomPage.classList.remove('hidden');
 
     location.reload();
-}*/
+}
 
 function onError(error) {
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
@@ -142,9 +160,7 @@ function onError(error) {
 }
 
 function sendMessage(event) {
-	
-	console.log("sendMessage関数呼び出し");
-	
+    console.log("sendMessage関数呼び出し");
     var messageContent = messageInput.value.trim();
     var roomId = localStorage.getItem('roomId');
 
@@ -190,12 +206,7 @@ function onMessageReceived(payload) {
 
         container.appendChild(messageElement);
     } else {
-        if (message.sender === username) {
-            var messageDiv = createMessageElement(message.sender, message.content, 'bms_right');
-        } else {
-            var messageDiv = createMessageElement(message.sender, message.content, 'bms_left');
-        }
-
+        var messageDiv = createMessageElement(message.sender, message.content, (message.sender === username) ? 'bms_right' : 'bms_left');
         container.appendChild(messageDiv);
 
         var messageBoxClearDiv = document.createElement('div');
@@ -203,41 +214,29 @@ function onMessageReceived(payload) {
         messageDiv.parentNode.insertBefore(messageBoxClearDiv, messageDiv.nextSibling);
     }
 
-	if(message.type !== 'JOIN'){
     messageArea.scrollTop = messageArea.scrollHeight;
-    }
-}
-
-function getAvatarColor(messageSender) {
-    var hash = 0;
-    for (var i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-    var index = Math.abs(hash % colors.length);
-    return colors[index];
 }
 
 function generateUUID() {
     let d = new Date().getTime();
     if (window.performance && typeof window.performance.now === "function") {
-        d += performance.now(); // use high-precision timer if available
+        d += performance.now();
     }
     const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = (d + Math.random()*16) % 16 | 0;
+        const r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d / 16);
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
 }
 
-// 메시지 요소를 생성하는 함수
 function createMessageElement(sender, content, alignment) {
     var messageDiv = document.createElement('div');
     messageDiv.classList.add('bms_message', alignment);
 
-    if (sender === 'admin') {
+    if (sender !== 'admin') {
         var headerElement = document.createElement('h2');
-        headerElement.innerText = 'ジャバラー';
+        headerElement.innerText = "ユーザー";
         messageDiv.appendChild(headerElement);
     }
 
@@ -296,9 +295,6 @@ document.addEventListener("DOMContentLoaded", function() {
     messageArea.dispatchEvent(new Event('scroll'));
 });
 
-//document.addEventListener("DOMContentLoaded", introPage, true);
-
-//chatRoomForm.addEventListener('submit', createChatRoom, true);
-//usernameForm.addEventListener('submit', connect, true);
+document.addEventListener("DOMContentLoaded", introPage, true);
 messageForm.addEventListener('submit', sendMessage, true);
-//exitButton.addEventListener('click', exitChatRoom, true);
+exitButton.addEventListener('click', exitChatRoom, true);

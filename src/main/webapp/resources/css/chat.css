@@ -1,180 +1,685 @@
-#your_container{
-    /* 高さや幅など、好きな様に設定
-    bms_messages_containerの方で、縦横いっぱいに広がってくれるので、
-    ここで充てた高さと横幅がそのままスタイルになる仕組み */
-
-    height:600px;/*ここはご自由に*/
-    width: 100%;/*ここはご自由に*/
-}
-/* チャットの外側部分① */
-#bms_messages_container{
-    height: 100%;/*your_containerに対して100%になる */
-    width: 100%;/*your_containerに対して100%になる */
-    background-color: #eee;
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-/* ヘッダー部分② */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.58;
+    color: #333;
+    background: url('/img/javallar.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* body:before {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #ff7e00;
+    content: "";
+    z-index: 0;
+} */
+
+.clearfix:after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-control {
+    width: 100%;
+    min-height: 38px;
+    font-size: 15px;
+    border: 1px solid #c8c8c8;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input {
+    padding-left: 10px;
+    outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 1.7em;
+}
+
+a {
+    color: #ff7e00;
+}
+
+button {
+    box-shadow: none;
+    border: 1px solid transparent;
+    font-size: 14px;
+    outline: none;
+    line-height: 100%;
+    white-space: nowrap;
+    vertical-align: middle;
+    padding: 0.6rem 1rem;
+    border-radius: 2px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    min-height: 38px;
+}
+
+button.default {
+    background-color: #e8e8e8;
+    color: #333;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+button.primary {
+    background-color: #ff7e00;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+    color: #fff;
+    border-radius: 50px; /* ボタンを丸くする */
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button.primary:hover {
+    background-color: #e68a00;
+}
+
+button.accent {
+    background-color: #ff4743;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+    color: #fff;
+}
+
+#username-page {
+    text-align: center;
+}
+
+.username-page-container {
+    background: #fff;
+    box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+    border-radius: 2px;
+    width: 100%;
+    max-width: 500px;
+    display: inline-block;
+    margin-top: 42px;
+    vertical-align: middle;
+    position: relative;
+    padding: 35px 55px 35px;
+    min-height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: -160px;
+}
+
+.chatroom-container {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+    margin-top: 30px;
+    height: calc(100% - 60px);
+    max-height: 600px;
+    position: relative;
+    border-radius: 15px;
+}
+
+.chatroom {
+    background-color: rgba(255, 255, 255, 1); /* 透明度をなくす */
+    border-radius: 10px; /* 角を丸くする */
+    margin-bottom: 10px; /* 余白を追加 */
+    padding: 10px; /* 内側の余白を追加 */
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+.username-page-container .username-submit {
+    margin-top: 10px;
+}
+
+#chatroom-page {
+    position: relative;
+    height: 100%;
+}
+
+#chat-page {
+    position: relative;
+    height: 100%;
+    border-radius: 100px; /* 角を丸くする */
+}
+
+.chat-container {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+    margin-top: 30px;
+    height: calc(100% - 60px);
+    max-height: 600px;
+    position: relative;
+    border-radius: 50px 50px 50px 50px; /* 角を丸く */
+}
+
+/* 여기부터  */
+.form-control {
+    display: inline-block;
+}
+
+#chatroom-page ul {
+    list-style-type: none;
+    background-color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    overflow: auto;
+    overflow-y: scroll;
+    padding: 0 20px 0px 20px;
+    height: calc(100% - 60px);
+}
+
+#chatroom-page ul li {
+    padding: 50px 20px;
+    margin: 0;
+    border-bottom: 1px solid #658998;
+}
+
+#chatroom-page .chatroom {
+    height: 100px;
+    position: relative;
+    background-color: rgba(255, 255, 255, 1); /* 透明度をなくす */
+    border-radius: 10px; /* 角を丸くする */
+    margin-bottom: 10px; /* 余白を追加 */
+    padding: 10px; /* 内側の余白を追加 */
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+#chatroom-page .chatroom:hover {
+    cursor: pointer;
+   background-color: #f0f0f0; /* ホバー時の背景色 */
+}
+
+#chatroom-page ul li p {
+    margin: 0;
+}
+
+.chatroom:hover {
+    background-color: #f0f0f0; /* ホバー時の背景色 */
+}
+
+#chatroom-page .chatroom span {
+    position: absolute;
+    width: 450px;
+    overflow: hidden;
+    left: 40px;
+    display: inline-block;
+    vertical-align: middle;
+    font-style: normal;
+    color: #333333db;
+    font-weight: 600;
+    font-size: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#chatroom-page .chatroom p {
+    color: #43464b;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#chatroom-page .chatroom-form-control {
+    display: inline-block;
+    width: 500px;
+    height: 38px;
+}
+
+#chatroom-page .chatroom-form-group {
+    display: inline-block;
+    width: 500px;
+    height: 38px;
+    margin: 10px;
+}
+
+#chatroom-page .chatroom-submit {
+    position: absolute;
+    display: inline-block;
+    width: 120px;
+    height: 38px;
+    margin: 10px;
+    text-align: right;
+    right: 10px;
+}
+/* 여기까지 */
+
+#chat-page ul {
+    list-style-type: none;
+    background-color: rgba(255, 255, 255, 0.6); /* 60%の透明度 */
+    margin: 0;
+    overflow: auto;
+    overflow-y: scroll;
+    padding: 0 20px 10px 20px; /* ボトムパディングを10px追加 */
+    height: calc(100% - 150px);
+    border-radius: 10px; /* 角を丸くする */
+    max-height: 80vh; /* 画面の大きさに応じて高さを調整 */
+    scrollbar-width: thin;
+    scrollbar-color: #ff7e00 #ffe6b3; /* カカオトーク風スクロールバー */
+}
+
+#chat-page ul::-webkit-scrollbar {
+    width: 8px; /* スクロールバーの幅 */
+    border-radius: 100px; /* 角を丸くする */
+}
+
+#chat-page ul::-webkit-scrollbar-track {
+    background: #ffe6b3; /* スクロールバーのトラックの色 */
+    border-radius: 100px; /* 角を丸くする */
+}
+
+#chat-page ul::-webkit-scrollbar-thumb {
+    background-color: #ff7e00; /* スクロールバーの親指の色 */
+    border-radius: 10px; /* 角を丸くする */
+    border: 2px solid #ffe6b3; /* トラックの色との境界をつける */
+}
+
+#chat-page ul::-webkit-scrollbar-thumb:vertical {
+    border-radius: 100px; /* 縦スクロールバーの角を丸くする */
+}
+
+/* 矢印アイコン用のスタイル */
+.scroll-arrow {
+    position: absolute;
+    right: -40px; /* スクロールバーの横に配置 */
+    font-size: 30px;
+    color: #ff7e00;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.scroll-arrow:hover {
+    transform: scale(1.2); /* ホバー時に大きくする */
+}
+
+.scroll-arrow.up {
+    top: 42%;
+}
+
+.scroll-arrow.down {
+    bottom: 42%;
+}
+
+#chat-page #messageForm {
+    padding: 20px;
+}
+
+#chat-page .exit-chat-room{
+    position: absolute;
+    margin-left: 30px;
+    color: #333;
+    background: #FFFFFF;
+    font-size: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#chat-page ul li {
+    line-height: 1.5rem;
+    padding: 10px 20px;
+    margin: 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+#chat-page ul li p {
+    margin: 0;
+}
+
+#chat-page .event-message {
+    width: 100%;
+    text-align: center;
+    clear: both;
+}
+
+#chat-page .event-message p {
+    color: #777;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+#chat-page .chat-message {
+    padding-left: 68px;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.6);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+#chat-page .chat-message i {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    line-height: 42px;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+#chat-page .chat-message span {
+    color: #333;
+    font-weight: 600;
+}
+
+#chat-page .chat-message p {
+    color: #43464b;
+}
+
+#messageForm .input-group input {
+    float: left;
+    width: calc(100% - 85px);
+}
+
+#messageForm {
+    background-color: rgba(255, 255, 255, 1); /* 透明度をなくす */
+    padding: 20px;
+    border-radius: 0 0 50px 50px; /* 下の方だけ角を丸く */
+}
+
+#messageForm .input-group button {
+    float: left;
+    width: 80px;
+    height: 38px;
+    margin-left: 5px;
+}
+
+.chat-header {
+    border-radius: 50px 50px 0 0; /* 上の方だけ角を丸く */
+    position: relative;
+    height: 70px;
+    padding: 15px;
+    border-bottom: 1px solid #ececec;
+    background-color: #ffe6b3; /* 背景色を変更 */
+}
+
+.chat-header h2 {
+    margin: 0;
+    font-weight: bold; /* 文字を太くする */
+    text-align: center;
+    font-size: 1.5em; /* 必要に応じてフォントサイズを調整 */
+    color: black;
+}
+
+.connecting {
+    padding-top: 5px;
+    text-align: center;
+    color: #777;
+    position: absolute;
+    top: 65px;
+    width: 100%;
+}
+
+@media screen and (max-width: 730px) {
+    .chatroom-container {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    .chat-container {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .chatroom-container {
+        height: calc(100% - 30px);
+    }
+
+    .chat-container {
+        height: calc(100% - 30px);
+    }
+
+    .username-page-container {
+        width: auto;
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 25px;
+    }
+
+    #chat-page ul {
+        height: calc(100% - 120px);
+    }
+
+    #messageForm .input-group button {
+        width: 65px;
+    }
+
+    #messageForm .input-group input {
+        width: calc(100% - 70px);
+    }
+
+    .chat-header {
+        padding: 10px;
+    }
+
+    .connecting {
+        top: 60px;
+    }
+
+    .chat-header h2 {
+        font-size: 1.1em;
+    }
+}
+
+#your_container {
+    height: 600px;
+    width: 100%;
+    background-color: #f7e0c3;
+}
+
+#bms_messages_container {
+    height: 100%;
+    width: 100%;
+    background-color: #ffe6b3;
+}
+
 #bms_chat_header {
-    padding: 6px;/*隙間調整*/
+    padding: 6px;
     font-size: 16px;
     height: 34px;
-    background: #ddd;
-    border: 1px solid #ccc;
+    background: #ffb347;
+    border: 1px solid #ff9e1b;
 }
-    /* ステータスマークとユーザー名 */
-    #bms_chat_user_status {
-        float: left;/* bms_chat_headerに対して左寄せ */
-    }
-    /* ステータスマーク */
-    #bms_status_icon {
-        float: left;/* bms_chat_user_statusに対して左寄せ */
-        line-height: 2em;/*高さ調整*/
-    }
-    /* ユーザー名 */
-    #bms_chat_user_name {
-        float: left;/* bms_chat_user_statusに対して左寄せ */
-        line-height: 2em;/*高さ調整*/
-        padding-left: 8px;
-    }
 
-/* タイムライン部分③ */
+#bms_chat_user_status {
+    float: left;
+}
+
+#bms_status_icon {
+    float: left;
+    line-height: 2em;
+}
+
+#bms_chat_user_name {
+    float: left;
+    line-height: 2em;
+    padding-left: 8px;
+}
+
 #bms_messages {
-    overflow: auto;/* スクロールを効かせつつ、メッセージがタイムラインの外に出ないようにする */
-    height:100%;/*テキストエリアが下に張り付く様にする*/
-    border-right: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    background-color: #eee;
-    box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.2) inset;/*ヘッダーの下に影を入れる*/
+    overflow: auto;
+    height: 100%;
+    border-right: 1px solid #ff9e1b;
+    border-left: 1px solid #ff9e1b;
+    background-color: #fff3e6;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2) inset;
+    animation: fadeIn 0.5s;
 }
-    /* メッセージ全般のスタイル */
-    .bms_message {
-        margin: 0px;
-        padding: 0 14px;/*吹き出しがタイムラインの側面にひっつかない様に隙間を開ける*/
-        font-size: 16px;
-        word-wrap: break-word;/* 吹き出し内で自動で改行 */
-        white-space: normal;/*指定widthに合わせて、文字を自動的に改行*/
-    }
-    	/*
-         *追加
-         */
-        .bms_message_box{
-            margin-top: 20px;/*上下の吹き出しがひっつかない様に隙間を入れる*/
-            max-width: 100%;/*文字が長くなった時に吹き出しがタイムラインからはみ出さない様にする*/
-            font-size: 16px;
-        }
-            /*
-            *追加
-            */
-            .bms_message_content{
-                padding: 20px;/*文字や画像（コンテンツ）の外側に隙間を入れる*/
-            }
 
-        /* メッセージ１（左側） */
-        .bms_left {
-            float: left;/*吹き出しをbms_messagesに対して左寄せ*/
-            line-height: 1.3em;
-        }
-            /*
-            *追加
-            */
-            .bms_left .bms_message_box {
-                color: #333;/*テキストを黒にする*/
-                background: #fff;
-                border: 2px solid #13178E;
-                border-radius: 30px 30px 30px 0px;/*左下だけ尖らせて吹き出し感を出す*/
-                margin-right: 50px;/*左側の発言だとわかる様に、吹き出し右側に隙間を入れる*/
-            }
+.bms_message {
+    margin: 0px;
+    padding: 0 14px;
+    font-size: 16px;
+    word-wrap: break-word;
+    white-space: normal;
+    animation: slideUp 0.3s ease-out;
+}
 
-        /* メッセージ２（右側） */
-        .bms_right {
-            float: right;/*吹き出しをbms_messagesに対して右寄せ*/
-            line-height: 1.3em;
-        }
-            /*
-            *追加
-            */
-            .bms_right .bms_message_box {
-                color: #fff;/*テキストを白にする*/
-                background: #13178E;
-                border: 2px solid #13178E;
-                border-radius: 30px 30px 0px 30px;/*右下だけ尖らせて吹き出し感を出す*/
-                margin-left: 50px;/*右側の発言だとわかる様に、吹き出し左側に隙間を入れる*/
-            }
-            
-    /* メッセージ１（左側） */
-    .bms_left {
-        float: left;/*吹き出しをbms_messagesに対して左寄せ*/
-        line-height: 1.3em;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
-    /* メッセージ２（右側） */
-    .bms_right {
-        float: right;/*吹き出しをbms_messagesに対して右寄せ*/
-        line-height: 1.3em;
+    to {
+        opacity: 1;
     }
-    /* 回り込みを解除 */
-    .bms_clear {
-        clear: both; /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと、自分より下のメッセージにfloatが影響する） */
+}
 
-    }
+.bms_message_box {
+    margin-top: 20px;
+    max-width: 100%;
+    font-size: 16px;
+}
 
-/* テキストエリア、送信ボタン④ */
+.bms_message_content {
+    padding: 20px;
+}
+
+.bms_message_text {
+    font-weight: bold; /* 文字を太くする */
+    font-size: 1.1em; /* 必要に応じてフォントサイズを調整 */
+}
+
+.bms_left {
+    float: left;
+    line-height: 1.3em;
+}
+
+.bms_left .bms_message_box {
+    color: #333;
+    background: #fff;
+    border: 2px solid #ff9e1b;
+    border-radius: 30px 30px 30px 0px;
+    margin-right: 50px;
+}
+
+.bms_right {
+    float: right;
+    line-height: 1.3em;
+}
+
+.bms_right .bms_message_box {
+    color: #fff;
+    background: #ff9e1b;
+    border: 2px solid #ff9e1b;
+    border-radius: 30px 30px 0px 30px;
+    margin-left: 50px;
+}
+
+.bms_clear {
+    clear: both;
+}
+
 #bms_send {
-    background-color:#eee;/*タイムラインの色と同じにする*/
-    border-right: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    background-color: #ffe6b3;
+    border-right: 1px solid #ff9e1b;
+    border-left: 1px solid #ff9e1b;
+    border-bottom: 1px solid #ff9e1b;
     height: 48px;
     padding: 4px;
 }
-    #bms_send_message{
-        width: calc(100% - 75px);/*常に送信ボタンの横幅を引いたサイズに動的に計算*/
-        line-height: 16px;
-        height: 48px;
-        padding: 14px 6px 0px 6px;/*文字がテキストエリアの中心になる様に隙間調整*/
-        border: 1px solid #ccc;
-        border-radius: 4px;/*角丸*/
-        text-align: left;/*文字を左寄せ*/
-        box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.2) inset;/*内側に影を入れてテキストエリアらしくした*/
-        box-sizing: border-box;/*paddingとborderの要素の高さと幅の影響をなくす（要素に高さと幅を含める）*/
 
-    }
-    #bms_send_btn {
-        width: 72px;
-        height: 48px;
-        font-size: 16px;
-        line-height: 3em;
-        float: right;/*bms_sendに対して右寄せ*/
-        color: #fff;
-        font-weight: bold;
-        background: #bcbcbc;
-        text-align: center;/*文字をボタン中央に表示*/
-        border: 1px solid #bbb;
-        border-radius: 4px;/*角丸*/
-        box-sizing: border-box;/*paddingとborderの要素の高さと幅の影響をなくす（要素に高さと幅を含める）*/
-    }
-    #bms_send_btn:hover {
-        background: #13178E; /*マウスポインタを当てた時にアクティブな色になる*/
-        cursor: pointer;/*マウスポインタを当てた時に、カーソルが指の形になる*/
-    }
+#bms_send_message {
+    width: calc(100% - 75px);
+    line-height: 16px;
+    height: 48px;
+    padding: 14px 6px 0px 6px;
+    border: 1px solid #ff9e1b;
+    border-radius: 4px;
+    text-align: left;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2) inset;
+    box-sizing: border-box;
+}
+
+#bms_send_btn {
+    width: 72px;
+    height: 48px;
+    font-size: 16px;
+    line-height: 3em;
+    float: right;
+    color: #fff;
+    font-weight: bold;
+    background: #ff9e1b;
+    text-align: center;
+    border: 1px solid #ff9e1b;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#bms_send_btn:hover {
+    background: #e68a00;
+    cursor: pointer;
+}
 
 .chatroom-form-control {
-            background-color: #ff7e00; /* 초기 색깔 */
-            border: none;
-            border-radius: 30px;
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 15px 30px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            margin: 10px 0;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+    background-color: #ff7e00;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px 0;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .chatroom-form-control:hover {
-            background-color: #ed6600; /* 호버 시 색깔 */
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    background-color: #ed6600;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }

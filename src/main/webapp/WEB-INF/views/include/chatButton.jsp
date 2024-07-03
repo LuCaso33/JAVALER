@@ -39,7 +39,7 @@
 <script>
     function openChat() {
         window.open("${pageContext.request.contextPath}/chat", "_blank",
-                "width=800,height=1500");
+                "width=800,height=800");
     }
 </script>
 <!-- 1:1 채팅 버튼 아이콘 -->
