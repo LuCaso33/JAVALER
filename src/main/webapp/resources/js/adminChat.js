@@ -22,7 +22,7 @@ var colors = [
 ];
 
 function introPage(event) {
-    var url = "http://192.168.0.129:8080/chat/chatrooms";
+    var url = "http://192.168.0.126:8080/chat/chatrooms";
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -63,7 +63,7 @@ function chatRoomClick(room) {
     var roomId = room.getAttribute('roomId');
     var roomName = room.getAttribute('roomName');  // roomName属性を取得
     
-    var url = "http://192.168.0.129:8080/chat/roomname?roomId=" + roomId;
+    var url = "http://192.168.0.126:8080/chat/roomname?roomId=" + roomId;
 
     fetch(url)
         .then(response => {
