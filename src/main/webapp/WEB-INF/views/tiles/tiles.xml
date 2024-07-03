@@ -9,6 +9,7 @@
 		<put-attribute name="header" value="/WEB-INF/views/include/header.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/include/footer.jsp" />
 		<put-attribute name="chatButton" value="/WEB-INF/views/include/chatButton.jsp" />
+		<put-attribute name="estimateButton" value="/WEB-INF/views/include/estimateButton.jsp" />
 	</definition>
 	
 	<!-- 헤더 풋터를 계속 붙이기 때문에 바로 위의 layout을 상속 -->
