@@ -35,10 +35,7 @@
 	<div class="btnSet">
 		<core:if test="${!empty login_info }">
 			<a class='btn-fill' href="new.cu">신청하기</a>
-		</core:if>
-		<core:if test="${!empty login_info }">
-			<a class='btn-fill' href="order.cu">신청하기(가제_)</a>
-		</core:if>			
+		</core:if>		
 	</div>
 <!-- </div> -->
 <%-- <jsp:include page="/WEB-INF/views/include/footer.jsp" /> --%>
