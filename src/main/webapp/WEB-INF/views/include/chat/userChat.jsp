@@ -6,7 +6,7 @@
   <head>
       <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
       <title>Spring Boot WebSocket Chat Application | CalliCoder</title>
-      <link rel="stylesheet" href="css/adminChat.css" />
+      <!-- <link rel="stylesheet" href="css/adminChat.css" /> -->
       <link rel="stylesheet" href="css/chat.css" />
   </head>
   <body>
@@ -38,7 +38,7 @@
 			    <div class="bms_message_box">
 			        <div class="bms_message_content">
 			            <div class="bms_message_text">
-							サービスを選択して下さい。
+							<b>サービスを選択して下さい。</b>
 			            </div>
 			        </div>
 			    </div>
@@ -48,12 +48,12 @@
 			
 			
 			
-<style>
+<!-- <style>
 .chatroom-form-control {
             background-color: #ff7e00; /* 초기 색깔 */
             border: none;
             border-radius: 30px;
-            color: black;
+            color: white;
             font-size: 16px;
             font-weight: bold;
             padding: 15px 30px;
@@ -70,7 +70,7 @@
             background-color: #ed6600; /* 호버 시 색깔 */
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
-</style>
+</style> -->
 			
 			
 
@@ -94,7 +94,7 @@
                 <div class="form-group">
                     <div class="input-group clearfix">
                         <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                        <button type="submit" class="primary">Send</button>
+                        <button type="submit" class="primary">送信</button>
                     </div>
                 </div>
             </form>
@@ -106,6 +106,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="js/userChat.js"></script>
+    <!-- <script src="js/chat.js"></script> -->
   </body>
 </html>
 
