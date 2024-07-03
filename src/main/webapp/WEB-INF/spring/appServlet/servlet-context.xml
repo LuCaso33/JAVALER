@@ -47,5 +47,6 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.hanul.iot" />
+	<context:component-scan base-package="chat" />
 	
 </beans:beans>

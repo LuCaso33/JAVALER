@@ -19,6 +19,7 @@
 <div id="content">
 	<tiles:insertAttribute name="content" />
 </div>
+<tiles:insertAttribute name="chatButton" />
 
 <tiles:insertAttribute name="footer" />
 </body>
