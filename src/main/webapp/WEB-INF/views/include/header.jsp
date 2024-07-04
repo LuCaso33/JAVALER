@@ -93,6 +93,7 @@ header ul li input { display:block; }
 					<a href="javascript:void(0)" class="dropbtn">마이페이지</a>
 					<div class="dropdown-content">
 						<a href="#" onclick="myService()">나의 서비스</a>
+						<a href="#" onclick="myPost()">나의 게시글</a>
 						<a href="#" onclick="memberInfo()">회원정보</a>
 						<a href="#" onclick="memberDelete()">회원탈퇴</a>
 					</div>
@@ -164,6 +165,10 @@ function go_logout() {
 
 function myService() {
     window.location.href = "myService"; // 페이지 이동
+}
+
+function myPost() {
+    window.location.href = "myPost"; // 페이지 이동
 }
 
 function memberInfo() {

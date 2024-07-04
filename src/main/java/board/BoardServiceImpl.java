@@ -59,4 +59,8 @@ public class BoardServiceImpl implements BoardService {
 		return dao.board_comment_delete(id);
 	}
 
+    @Override
+    public BoardPage myPostList(BoardPage page, String writer) {
+        return dao.myPostList(page, writer);
+    }
 }
