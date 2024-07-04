@@ -4,9 +4,15 @@ import java.sql.Date;
 
 public class BoardVO {
 	private int id, readcnt, no;
-	private String title, content, writer, name, filename, filepath;
+	private String title, content, writer, name, filename, filepath, tableName;
 	private Date writedate;
 	
+	public String getTableName() {
+		return tableName;
+	}
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 	public int getId() {
 		return id;
 	}

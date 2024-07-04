@@ -58,6 +58,7 @@ public class QnaController {
 			vo.setFilename(file.getOriginalFilename());
 		}
 		
+		//세션 로그인 정보로부터 사용자 Id를 받아와서 Writer에 등록 
 		vo.setWriter( ((MemberVO) session.getAttribute("login_info")).getId() );
 		//화면에서 입력한 정보를 DB에 저장한 후
 		service.qna_insert(vo);

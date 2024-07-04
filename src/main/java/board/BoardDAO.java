@@ -61,4 +61,11 @@ public class BoardDAO implements BoardService {
 	public int board_comment_delete(int id) {
 		return sql.delete("board.mapper.comment_delete", id);
 	}
+	
+    @Override
+    public BoardPage myPostList(BoardPage page, String writer) {
+        page.setTotalList((Integer) sql.selectOne("board.mapper.myPostTotal", writer));
+        page.setList(sql.selectList("board.mapper.myPostList", page));
+        return page;
+    }
 }

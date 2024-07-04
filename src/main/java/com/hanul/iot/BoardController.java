@@ -174,4 +174,29 @@ public class BoardController {
 	public void comment_delete(@PathVariable int id) {
 		service.board_comment_delete(id);	
 	} //comment_delete()
+	
+	
+    // 나의 게시글 목록 화면 요청
+    @RequestMapping("myPost")
+    public String myPostList(HttpSession session, Model model, @RequestParam(defaultValue = "1") int curPage,
+            String search, String keyword, @RequestParam(defaultValue = "10") int pageList, 
+            @RequestParam(defaultValue = "list") String viewType) {
+    	//DB에서 방명록 정보를 조회하여 목록 화면에 출력
+        session.setAttribute("category", "myPost");
+        page.setCurPage(curPage);
+        page.setSearch(search);
+        page.setKeyword(keyword);
+        page.setPageList(pageList);
+        page.setViewType(viewType);
+        String writer = ((MemberVO) session.getAttribute("login_info")).getId();
+        page.setWriter(writer);
+        model.addAttribute("page", service.myPostList(page, writer));
+        
+        return "member/myPost";
+    }
+    
+    
+   
 } //class
+
+

@@ -76,4 +76,28 @@
 	<delete id="comment_delete">
 		DELETE FROM board_comment WHERE id=#{id}
 	</delete>
+	
+    <select id="myPostTotal" resultType="integer">
+        SELECT COUNT(*) FROM MYPOST WHERE writer=#{writer, jdbcType=VARCHAR}
+    </select>
+
+    <select id="myPostList" resultType="board.BoardVO">
+        SELECT n.*, 
+               (SELECT name FROM member WHERE member.id=writer) name,
+               n.TABLENAME
+        FROM (SELECT b.*, ROWNUM no
+            FROM (SELECT * FROM MYPOST WHERE writer=#{writer,jdbcType=VARCHAR} <include refid="mySearch"/> ORDER BY WRITEDATE DESC) b
+            ORDER BY no DESC) n
+        WHERE no BETWEEN #{beginList} AND #{endList}
+    </select>
+    
+    <sql id="mySearch">
+        <if test="search == 'title' or search == 'content'">
+            AND ${search} LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="search == 'all'">
+            AND (TITLE LIKE '%' || #{keyword} || '%' OR content LIKE '%' || #{keyword} || '%')
+        </if>
+    </sql>
+	
 </mapper>

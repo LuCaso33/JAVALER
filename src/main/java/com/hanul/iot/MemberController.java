@@ -135,7 +135,7 @@ public class MemberController {
         return "member/findUser";
     }
     
-    // 마이페이지 -> 회원정보
+    // 마이페이지 -> 회원탈퇴
     @RequestMapping("memberDelete")
     public String memberDelete() {
         return "member/memberDelete";
