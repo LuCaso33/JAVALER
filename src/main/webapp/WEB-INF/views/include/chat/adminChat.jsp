@@ -5,7 +5,7 @@
 <html>
   <head>
       <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-      <title>Spring Boot WebSocket Chat Application | CalliCoder</title>
+      <title>ジャバラー</title>
       <!-- <link rel="stylesheet" href="css/adminChat.css" /> -->
       <link rel="stylesheet" href="css/chat.css" />
   </head>
@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <div class="input-group clearfix">
                         <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                        <button type="submit" class="primary">Send</button>
+                        <button type="submit" class="primary">送信</button>
                     </div>
                 </div>
             </form>

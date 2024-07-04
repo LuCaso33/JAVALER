@@ -56,7 +56,7 @@ var colors = [
 }*/
 
 function createChatRoom(roomName) {
-    var url = "http://192.168.0.126:8080/chat/chatroom";
+    var url = "http://192.168.0.129:8080/chat/chatroom";
     fetch(url, {
         method: 'POST',
         headers: {

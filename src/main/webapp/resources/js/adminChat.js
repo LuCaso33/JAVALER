@@ -22,7 +22,7 @@ var colors = [
 ];
 
 function introPage(event) {
-    var url = "http://192.168.0.126:8080/chat/chatrooms";
+    var url = "http://192.168.0.129:8080/chat/chatrooms";
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -63,7 +63,7 @@ function chatRoomClick(room) {
     var roomId = room.getAttribute('roomId');
     var roomName = room.getAttribute('roomName');  // roomName属性を取得
     
-    var url = "http://192.168.0.126:8080/chat/roomname?roomId=" + roomId;
+    var url = "http://192.168.0.129:8080/chat/roomname?roomId=" + roomId;
 
     fetch(url)
         .then(response => {
@@ -296,6 +296,45 @@ function createMessageElement(sender, content, alignment) {
 
     return messageDiv;
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const messageArea = document.getElementById('messageArea');
+
+    const arrowUp = document.createElement('div');
+    arrowUp.classList.add('scroll-arrow', 'up');
+    arrowUp.innerHTML = '▲';
+    arrowUp.addEventListener('click', function() {
+        messageArea.scrollTop = 0; // 最上部にスクロール
+    });
+
+    const arrowDown = document.createElement('div');
+    arrowDown.classList.add('scroll-arrow', 'down');
+    arrowDown.innerHTML = '▼';
+    arrowDown.addEventListener('click', function() {
+        messageArea.scrollTop = messageArea.scrollHeight; // 最下部にスクロール
+    });
+
+    messageArea.parentElement.appendChild(arrowUp);
+    messageArea.parentElement.appendChild(arrowDown);
+
+    // スクロールイベントリスナーを追加
+    messageArea.addEventListener('scroll', function() {
+        if (messageArea.scrollTop > 0) {
+            arrowUp.style.display = 'block';
+        } else {
+            arrowUp.style.display = 'none';
+        }
+        if (messageArea.scrollTop + messageArea.clientHeight < messageArea.scrollHeight) {
+            arrowDown.style.display = 'block';
+        } else {
+            arrowDown.style.display = 'none';
+        }
+    });
+
+    // 初期状態を設定
+    messageArea.dispatchEvent(new Event('scroll'));
+});
 
 
 document.addEventListener("DOMContentLoaded", introPage, true);
