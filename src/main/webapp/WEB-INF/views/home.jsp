@@ -6,9 +6,9 @@
 <body>
 <%-- <jsp:include page="/WEB-INF/views/include/header.jsp" /> --%>
 <!-- <div id="content"> -->
-	<img src="img/banner.png" style="width: 80%" />
+	<img src="${pageContext.request.contextPath}/resources/images/banner.png" style="width: 80%" />
 <!-- </div> -->
-<%-- <jsp:include page="/WEB-INF/views/services.jsp" /> --%>
+<%-- <jsp:include page="/WEB-INF/views/include/services.jsp" /> -->
 <%-- <jsp:include page="/WEB-INF/views/include/footer.jsp" /> --%>
 </body>
 </html>

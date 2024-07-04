@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${category eq 'cu' ? '고객 관리' : (category eq 'no' ? '공지사항' : (category eq 'bo' ? '채용신청' : (category eq 'da' ? '협력기업' : (category eq 'join' ? '회원가입' : '') ) ) ) } ${empty category ? '' : ' : ' }IoT</title>
+<title>${category eq 'cu' ? '고객 관리' : (category eq 'no' ? '공지사항' : (category eq 'bo' ? '채용신청' : (category eq 'da' ? '협력기업' : (category eq 'join' ? '회원가입' : '') ) ) ) } ${empty category ? '' : ' : ' }JAVALAR</title>
 <!-- 브라우저 탭의 작은 아이콘 설정 -->
-<link rel="icon" type="image/x-icon" href="img/icon.ico" />
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/icon.ico" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script>
 <!-- cdnjs.com에서 가져온 fontawesome cdn 라이브러리 -->
 <!-- 모든 화면에서 사용하기 위해 join.jsp에 있던 코드를 layout.jsp로 옮겨온다. -->

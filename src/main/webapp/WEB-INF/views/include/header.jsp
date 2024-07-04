@@ -76,7 +76,7 @@ header ul li input { display:block; }
 <header style="border-bottom: 1px solid #ccc; padding: 15px 0; text-align: left">
 	<div class="category" style="margin-left: 100px;"> 
 		<ul>
-			<li><a href="<core:url value='/' />"><img src="img/logo.png" /></a></li>
+			<li><a href="<core:url value='/' />"><img src="${pageContext.request.contextPath}/resources/images/logo.png" /></a></li>
 			<li><a href='list.da' ${category eq 'da' ? "class='active'" : '' } >협력기업</a></li>
 			<li><a href='list.qna' ${category eq 'qna' ? "class='active'" : '' } >프로젝트 문의</a></li>
 			<li><a href='list.no' ${category eq 'no' ? "class='active'" : '' } >유지보수 문의</a></li>
