@@ -60,7 +60,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
     @Override
-    public BoardPage myPostList(BoardPage page, String writer) {
+    public MyPostPage myPostList(MyPostPage page, String writer) {
         return dao.myPostList(page, writer);
     }
 }

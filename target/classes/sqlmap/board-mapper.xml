@@ -81,15 +81,22 @@
         SELECT COUNT(*) FROM MYPOST WHERE writer=#{writer, jdbcType=VARCHAR}
     </select>
 
-    <select id="myPostList" resultType="board.BoardVO">
-        SELECT n.*, 
-               (SELECT name FROM member WHERE member.id=writer) name,
-               n.TABLENAME
-        FROM (SELECT b.*, ROWNUM no
-            FROM (SELECT * FROM MYPOST WHERE writer=#{writer,jdbcType=VARCHAR} <include refid="mySearch"/> ORDER BY WRITEDATE DESC) b
-            ORDER BY no DESC) n
-        WHERE no BETWEEN #{beginList} AND #{endList}
-    </select>
+	<select id="myPostList" resultType="board.BoardVO">
+	    SELECT n.*, 
+	           (SELECT name FROM member WHERE member.id=writer) name,
+	           n.TABLENAME
+	    FROM (
+	        SELECT b.*, ROWNUM no
+	        FROM (
+	            SELECT * 
+	            FROM MYPOST 
+	            WHERE writer=#{writer,jdbcType=VARCHAR} <include refid="mySearch"/> 
+	            ORDER BY WRITEDATE ASC
+	        ) b
+	    ) n
+	    WHERE no BETWEEN #{beginList} AND #{endList}
+	    ORDER BY n.no DESC
+	</select>
     
     <sql id="mySearch">
         <if test="search == 'title' or search == 'content'">

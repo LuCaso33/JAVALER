@@ -1,6 +1,7 @@
 package com.hanul.iot;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import board.BoardCommentVO;
 import board.BoardPage;
 import board.BoardServiceImpl;
 import board.BoardVO;
+import board.MyPostPage;
 import common.CommonService;
 import member.MemberVO;
 
@@ -26,7 +28,9 @@ import member.MemberVO;
 public class BoardController {
 	@Autowired private BoardServiceImpl service;
 	@Autowired private BoardPage page;
+	@Autowired private MyPostPage postPage;
 	@Autowired private CommonService common;
+	@Autowired private MemberController memberController;
 	
 	//방명록 목록 화면 요청================================================================
 	@RequestMapping("/list.bo")
@@ -42,6 +46,10 @@ public class BoardController {
 		page.setViewType(viewType);
 		
 		model.addAttribute("page", service.board_list(page));
+		
+        // 모든 myPost의 id를 리스트로 가져옴
+		String userId = (String) session.getAttribute("userId");
+		session.setAttribute("myPostIds", memberController.updateMyPostIds(session, userId));
 		
 		return "board/list";
 	} //list()
@@ -68,14 +76,39 @@ public class BoardController {
 	
 	//방명록 상세 화면 요청====================================================================
 	@RequestMapping("/detail.bo")
-	public String detail(int id, Model model) {
+	public String detail(int id, Model model, HttpSession session) {
 		//선택한 방명록 글을 DB에서 조회해와 상세 화면에 출력
 		service.board_read(id);
 		model.addAttribute("vo", service.board_detail(id));
 		model.addAttribute("page", page);
 		model.addAttribute("crlf", "\r\n");
 		
-		return "board/detail";
+	    // 로그인 정보와 myPostIds를 세션에서 가져옴
+	    MemberVO loginInfo = (MemberVO) session.getAttribute("login_info");
+	    List<Integer> myPostIds = (List<Integer>) session.getAttribute("myPostIds");
+
+	    // 조건에 따른 상세 화면 접근 허용 여부 확인
+	    boolean canAccessDetail = false;
+	    if (loginInfo != null) {
+	        if ("Y".equals(loginInfo.getAdmin())) {
+	            canAccessDetail = true;
+	        } else if (myPostIds != null) {
+	            if (myPostIds.contains((Integer) service.board_detail(id).getId())) {
+	                canAccessDetail = true;
+	            }
+	        }
+	    }
+
+	    // 접근 가능 여부를 모델에 추가
+	    model.addAttribute("canAccessDetail", canAccessDetail);
+
+	    // 접근 가능 여부에 따라 상세 화면 또는 에러 메시지로 리다이렉트
+	    if (canAccessDetail) {
+	        return "board/detail";
+	    } else {
+	        model.addAttribute("alertMessage", "閲覧できません");
+	        return "board/list";  // 접근 불가 시 리다이렉트할 페이지 (예: 홈 화면)
+	    }
 	} //detail()
 	
 	//방명록 상세 화면 요청====================================================================
@@ -181,16 +214,24 @@ public class BoardController {
     public String myPostList(HttpSession session, Model model, @RequestParam(defaultValue = "1") int curPage,
             String search, String keyword, @RequestParam(defaultValue = "10") int pageList, 
             @RequestParam(defaultValue = "list") String viewType) {
+    	
+        // 로그인 정보가 없는 경우 처리
+        MemberVO loginInfo = (MemberVO) session.getAttribute("login_info");
+        if (loginInfo == null) {
+            model.addAttribute("alertMessage", "ログインして下さい");
+            return "home"; // 또는 원하는 리다이렉트 경로
+        }
+    	
     	//DB에서 방명록 정보를 조회하여 목록 화면에 출력
         session.setAttribute("category", "myPost");
-        page.setCurPage(curPage);
-        page.setSearch(search);
-        page.setKeyword(keyword);
-        page.setPageList(pageList);
-        page.setViewType(viewType);
+        postPage.setCurPage(curPage);
+        postPage.setSearch(search);
+        postPage.setKeyword(keyword);
+        postPage.setPageList(pageList);
+        postPage.setViewType(viewType);
         String writer = ((MemberVO) session.getAttribute("login_info")).getId();
-        page.setWriter(writer);
-        model.addAttribute("page", service.myPostList(page, writer));
+        postPage.setWriter(writer);
+        model.addAttribute("page", service.myPostList(postPage, writer));
         
         return "member/myPost";
     }

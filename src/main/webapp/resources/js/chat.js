@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 var chatRoomPage = document.querySelector('#chatroom-page');
 var chatRoomList = document.querySelector('#chatroom-list');
@@ -298,3 +298,4 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", introPage, true);
 messageForm.addEventListener('submit', sendMessage, true);
 exitButton.addEventListener('click', exitChatRoom, true);
+*/

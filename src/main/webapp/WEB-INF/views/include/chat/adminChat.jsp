@@ -51,8 +51,8 @@
                 <h2>チャットお問い合わせ</h2>
                 <button id="exit-chat-room" class="exit-chat-room">＜ </button>
             </div>
-            <div class="connecting">
-                Connecting...
+            <div class="connecting hidden">
+                接続中.
             </div>
             <ul id="messageArea">
 

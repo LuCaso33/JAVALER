@@ -15,5 +15,5 @@ public interface BoardService {
 	List<BoardCommentVO> board_comment_list(int pid);
 	int board_comment_update(BoardCommentVO vo);
 	int board_comment_delete(int id);
-	BoardPage myPostList(BoardPage page, String writer);
+	MyPostPage myPostList(MyPostPage page, String writer);
 }

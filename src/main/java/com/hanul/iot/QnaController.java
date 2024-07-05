@@ -2,6 +2,7 @@ package com.hanul.iot;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,6 +28,7 @@ public class QnaController {
 	@Autowired private CommonService common;
 	@Autowired private MemberServiceImpl member;
 	@Autowired private QnaPage page;
+	@Autowired private MemberController memberController;
 	
 	//글 목록
 	@RequestMapping("/list.qna")
@@ -39,6 +41,10 @@ public class QnaController {
 		page.setSearch(search);
 		page.setKeyword(keyword);
 		model.addAttribute("page", service.qna_list(page));
+		
+        // 모든 myPost의 id를 리스트로 가져옴
+		String userId = (String) session.getAttribute("userId");
+		session.setAttribute("myPostIds", memberController.updateMyPostIds(session, userId));
 		
 		return "qna/list";
 	}
@@ -68,7 +74,7 @@ public class QnaController {
 	
 	//QNA 글 상세 화면 요청
 	@RequestMapping("/detail.qna")
-	public String detail(int id, Model model) {
+	public String detail(int id, Model model, HttpSession session) {
 		//선택한 QNA 글에 대한 조회수 증가 처리
 		service.qna_read(id);
 		
@@ -77,7 +83,33 @@ public class QnaController {
 		model.addAttribute("crlf", "\r\n");
 		model.addAttribute("page", page);
 		
-		return "qna/detail";
+	    // 로그인 정보와 myPostIds를 세션에서 가져옴
+	    MemberVO loginInfo = (MemberVO) session.getAttribute("login_info");
+	    List<Integer> myPostIds = (List<Integer>) session.getAttribute("myPostIds");
+
+	    // 조건에 따른 상세 화면 접근 허용 여부 확인
+	    boolean canAccessDetail = false;
+	    if (loginInfo != null) {
+	        if ("Y".equals(loginInfo.getAdmin())) {
+	            canAccessDetail = true;
+	        } else if (myPostIds != null) {
+	            if (myPostIds.contains((Integer) service.qna_detail(id).getId()) || myPostIds.contains((Integer) service.qna_detail(id).getRoot() + 1)) {
+	                canAccessDetail = true;
+	            }
+	        }
+	    }
+
+	    // 접근 가능 여부를 모델에 추가
+	    model.addAttribute("canAccessDetail", canAccessDetail);
+
+	    // 접근 가능 여부에 따라 상세 화면 또는 에러 메시지로 리다이렉트
+	    if (canAccessDetail) {
+	        return "qna/detail";
+	    } else {
+	        model.addAttribute("alertMessage", "閲覧できません");
+	        return "qna/list";  // 접근 불가 시 리다이렉트할 페이지 (예: 홈 화면)
+	    }
+		
 	} //detail()
 	
 	//첨부 파일 다운로드 요청

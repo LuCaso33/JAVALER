@@ -38,7 +38,15 @@
 </table>
 
 <div class="btnSet">
-	<a class="btn-fill" href="list.no?curPage=${page.curPage }&search=${page.search }&keyword=${page.keyword }">목록으로</a>
+	<!-- 마이게시글에서 접속한 경우에는 마이게시글 목록으로 이동 / 아니면 해당 게시판 목록으로 이동 -->
+	<core:choose>
+    <core:when test="${sessionScope.category == 'myPost'}">
+        <a class="btn-fill" href="myPost">목록으로</a>
+    </core:when>
+    <core:otherwise>
+        <a class="btn-fill" href="list.no?curPage=${page.curPage }&search=${page.search }&keyword=${page.keyword }">목록으로</a>
+    </core:otherwise>
+	</core:choose>
 	<!-- 관리자인 경우 수정/삭제 가능 -->
 	<core:if test="${login_info.id eq vo.writer }">
 		<a class="btn-fill" href='modify.no?id=${vo.id }'>수정</a>

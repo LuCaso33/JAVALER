@@ -2,6 +2,7 @@ package com.hanul.iot;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,6 +28,7 @@ public class NoticeController {
 	@Autowired private MemberServiceImpl member;
 	@Autowired private CommonService common;
 	@Autowired private NoticePage page;
+	@Autowired private MemberController memberController;
 	
 	//공지사항 목록화면 요청//////////////////////////////////////////////////////
 	@RequestMapping("/list.no")
@@ -38,6 +40,10 @@ public class NoticeController {
 		page.setSearch(search);
 		page.setKeyword(keyword);
 		model.addAttribute("page", service.notice_list(page));
+		
+        // 모든 myPost의 id를 리스트로 가져옴
+		String userId = (String) session.getAttribute("userId");
+		session.setAttribute("myPostIds", memberController.updateMyPostIds(session, userId));
 		
 		return "notice/list";
 	}
@@ -66,7 +72,7 @@ public class NoticeController {
 	
 	//공지글 상세 화면 요청//////////////////////////////////////////////////////
 	@RequestMapping("/detail.no")
-	public String detail(int id, Model model) {
+	public String detail(int id, Model model, HttpSession session) {
 		//선택한 공지글에 대한 조회수 증가 처리
 		service.notice_read(id);
 		
@@ -75,7 +81,32 @@ public class NoticeController {
 		model.addAttribute("crlf", "\r\n");
 		model.addAttribute("page", page);
 		
-		return "notice/detail";
+	    // 로그인 정보와 myPostIds를 세션에서 가져옴
+	    MemberVO loginInfo = (MemberVO) session.getAttribute("login_info");
+	    List<Integer> myPostIds = (List<Integer>) session.getAttribute("myPostIds");
+
+	    // 조건에 따른 상세 화면 접근 허용 여부 확인
+	    boolean canAccessDetail = false;
+	    if (loginInfo != null) {
+	        if ("Y".equals(loginInfo.getAdmin())) {
+	            canAccessDetail = true;
+	        } else if (myPostIds != null) {
+	            if (myPostIds.contains((Integer) service.notice_detail(id).getId()) || myPostIds.contains((Integer) service.notice_detail(id).getRoot() + 1)) {
+	                canAccessDetail = true;
+	            }
+	        }
+	    }
+
+	    // 접근 가능 여부를 모델에 추가
+	    model.addAttribute("canAccessDetail", canAccessDetail);
+
+	    // 접근 가능 여부에 따라 상세 화면 또는 에러 메시지로 리다이렉트
+	    if (canAccessDetail) {
+	        return "notice/detail";
+	    } else {
+	        model.addAttribute("alertMessage", "閲覧できません");
+	        return "notice/list";  // 접근 불가 시 리다이렉트할 페이지 (예: 홈 화면)
+	    }
 	} //detail()
 	
 	//첨부파일 다운로드 요청//////////////////////////////////////////////////////

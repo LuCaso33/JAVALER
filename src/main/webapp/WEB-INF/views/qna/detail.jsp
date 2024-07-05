@@ -66,7 +66,14 @@
 </table>
 
 <div class="btnSet">
-	<a class="btn-fill" href="list.qna">목록으로</a>
+	<core:choose>
+    <core:when test="${sessionScope.category == 'myPost'}">
+        <a class="btn-fill" href="myPost">목록으로</a>
+    </core:when>
+    <core:otherwise>
+        <a class="btn-fill" href="list.qna">목록으로</a>
+    </core:otherwise>
+	</core:choose>
 	<!-- 회원인 경우 수정, 관리자는 수정, 삭제 가능 -->
 	<core:if test="${login_info.id eq vo.writer}"> 
 		<a class="btn-fill" href="modify.qna?id=${vo.id }">수정</a>
