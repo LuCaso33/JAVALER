@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +50,14 @@
 				<core:forEach var="i" begin="1" end="${vo.indent }">
 					${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" }	
 				</core:forEach>
-				<a href="detail.no?id=${vo.id }&curPage=${page.curPage }" >${vo.title }</a>
+				<core:choose>
+					<core:when test="${login_info.admin == 'Y' || fn:contains(myPostIds, vo.id) || fn:contains(myPostIds, vo.root + 1)}">
+						<a href="detail.no?id=${vo.id }&curPage=${page.curPage }">${vo.title }</a>
+					</core:when>
+					<core:otherwise>
+						<a href="javascript:void(0);" onclick="alert('閲覧できません')">${vo.title }</a>
+					</core:otherwise>
+				</core:choose>
 			</td>
 			<td>${vo.name }</td>
 			<td>${vo.writedate }</td>
@@ -66,5 +74,10 @@
 <div class="btnSet">
 	<jsp:include page="/WEB-INF/views/include/page.jsp"/>
 </div>
+<core:if test="${not empty alertMessage}">
+    <script type="text/javascript">
+        alert("${alertMessage}");
+    </script>
+</core:if>
 </body>
 </html>

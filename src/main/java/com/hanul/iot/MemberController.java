@@ -1,8 +1,11 @@
 package com.hanul.iot;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import board.BoardPage;
+import board.BoardServiceImpl;
+import board.BoardVO;
+import board.MyPostPage;
 import common.CommonService;
 import customer.CustomerVO;
 import member.MemberServiceImpl;
@@ -31,6 +38,8 @@ public class MemberController {
 	@Autowired private MemberServiceImpl service;
 	@Autowired private CommonService common;
 	@Autowired private JavaMailSender mailSender;
+	@Autowired private MyPostPage postPage;
+	@Autowired private BoardServiceImpl boardService;
 	
 	//로그인 요청
 	@ResponseBody @RequestMapping("/login")
@@ -47,13 +56,17 @@ public class MemberController {
 		//일치하는 회원 정보가 있다면 회원 정보를 세션에 담는다
 		session.setAttribute("login_info", vo);
 		
+        // 모든 myPost의 id를 리스트로 가져옴
+		session.setAttribute("myPostIds", updateMyPostIds(session, vo.getId()));
+		
 		return vo == null ? "false" : "true";
-	}
+    }
 	
 	//로그아웃 요청
 	@ResponseBody @RequestMapping("/logout")
 	public void logout(HttpSession session) {
 		session.removeAttribute("login_info");
+        session.removeAttribute("myPostIds"); // 로그아웃 시 myPostIds도 삭제
 	}
 	
 	//회원가입 화면 요청
@@ -262,7 +275,28 @@ public class MemberController {
 		String num = Integer.toString(checkNum); // ajax를 뷰로 반환시 데이터 타입은 String 타입만 가능
 		return num; // String 타입으로 변환 후 반환
 	}
+	
+	//myPostIds 업데이트 메소드 추가
+	public List<Integer> updateMyPostIds(HttpSession session, String writer) {
+		postPage.setWriter(writer);
+	    
+	    // 모든 myPost의 id를 리스트로 가져옴
+	    List<BoardVO> myPostList = boardService.myPostList(postPage, writer).getList();
+	    List<Integer> myPostIds = new ArrayList<Integer>();
+	    
+	    for (BoardVO vo : myPostList) {
+	        myPostIds.add(vo.getId());
+	    }
+	    
+	    //session.setAttribute("myPostIds", myPostIds);
+	    
+	    // myPostIdsの内容を表示
+	    System.out.println("myPostIds: " + myPostIds.toString());
+	    
+	    return myPostIds; 
+	}
 }
+
 
 /* 이클립스 디버깅
 		F5 해당 라인 시작, 함수가 있다면 함수 속으로 들어간다.

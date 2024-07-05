@@ -29,8 +29,8 @@
             <div class="chat-header">
                 <h2>チャットお問い合わせ</h2>
             </div>
-            <div class="connecting">
-                Connecting...
+            <div class="connecting hidden">
+                接続中...
             </div>
             <ul id="messageArea">
             

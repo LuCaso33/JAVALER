@@ -105,6 +105,7 @@ $(function(){
 })
 
 function go_detail(id, tableName) {
+	
     let url = '';
     switch(tableName) {
         case 'BOARD':

@@ -75,7 +75,15 @@ table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 			<core:forEach items="${page.list }" var="vo">
 				<tr>
 					<td>${vo.no }</td>
-					<td class="left"><a onclick="go_detail(${vo.id})">${vo.title }</a></td>
+					<td class="left">
+						<core:choose>
+							<core:when test="${login_info.admin == 'Y' || myPostIds.contains(vo.id)}">
+								<a href="javascript:void(0);" onclick="go_detail(${vo.id})">${vo.title }</a>
+							</core:when>
+							<core:otherwise>
+								<a href="javascript:void(0);" onclick="alert('閲覧できません')">${vo.title }</a>
+							</core:otherwise>
+						</core:choose>
 					<td>${vo.name }</td>
 					<td>${vo.writedate }</td>
 					<td>
@@ -92,7 +100,16 @@ table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 		<ul class="grid">
 			<core:forEach items="${page.list }" var="vo">
 				<li>
-					<div><a onclick="go_detail(${vo.id})">${vo.title }</a></div>
+					<div>
+						<core:choose>
+							<core:when test="${login_info.admin == 'Y' || myPostIds.contains(vo.id)}">
+								<a href="javascript:void(0);" onclick="go_detail(${vo.id})">${vo.title }</a>
+							</core:when>
+							<core:otherwise>
+								<a href="javascript:void(0);" onclick="alert('閲覧できません')">${vo.title }</a>
+							</core:otherwise>
+						</core:choose>
+					</div>
 					<div>${vo.name }</div>
 					<div>
 						${vo.writedate }
@@ -120,5 +137,10 @@ function go_detail(id) {
 	$('form').submit();	
 }
 </script>
+<core:if test="${not empty alertMessage}">
+    <script type="text/javascript">
+        alert("${alertMessage}");
+    </script>
+</core:if>
 </body>
 </html>

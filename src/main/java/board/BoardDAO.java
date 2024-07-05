@@ -63,7 +63,7 @@ public class BoardDAO implements BoardService {
 	}
 	
     @Override
-    public BoardPage myPostList(BoardPage page, String writer) {
+    public MyPostPage myPostList(MyPostPage page, String writer) {
         page.setTotalList((Integer) sql.selectOne("board.mapper.myPostTotal", writer));
         page.setList(sql.selectList("board.mapper.myPostList", page));
         return page;

@@ -214,7 +214,7 @@ function onMessageReceived(payload) {
 
         var usernameElement = document.createElement('span');
         usernameElement.innerText = 'ジャバラー';
-        messageElement.appendChild(usernameElement);
+        //messageElement.appendChild(usernameElement);
 
         var textElement = document.createElement('p');
         textElement.innerText = '接続完了。チャットを開始します。';

@@ -122,7 +122,7 @@ function onConnected() {
     );
 
 
-    connectingElement.classList.add('hidden');
+    connectingElement.classList.remove('hidden');
 }
 
 
@@ -173,7 +173,9 @@ function onMessageReceived(payload) {
 
         var usernameElement = document.createElement('span');
         usernameElement.innerText = 'ジャバラー';
-        messageElement.appendChild(usernameElement);
+        //messageElement.appendChild(usernameElement);
+        
+        connectingElement.classList.add('hidden');
 
         var textElement = document.createElement('p');
         textElement.innerText = '接続完了。チャットを開始します。';
@@ -295,6 +297,15 @@ document.addEventListener("DOMContentLoaded", function() {
     // 初期状態を設定
     messageArea.dispatchEvent(new Event('scroll'));
 });
+
+
+//接続中メッセージ動的に出力
+const messages = ['\u0020\u0020接続中.', '\u0020接続中..', '接続中...', '\u0020接続中..'];
+let index = 0;
+setInterval(function changeText() {
+    connectingElement.textContent = messages[index];
+    index = (index + 1) % messages.length;
+}, 800);
 
 //document.addEventListener("DOMContentLoaded", introPage, true);
 

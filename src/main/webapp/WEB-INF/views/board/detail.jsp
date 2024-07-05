@@ -101,9 +101,12 @@ table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바�
 <div id="popup-background"></div>
 <script type="text/javascript">
 function go_list() {
-	$('form').submit();
+    if ('${sessionScope.category}' === 'myPost') {
+        $('form').attr('action', 'myPost').submit();
+    } else {
+        $('form').submit();
+    }
 }
-
 function showAttachImage(id) {
 	//첨부된 파일이 이미지인 경우 보여지게
 	var filename = '${vo.filename}';
