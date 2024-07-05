@@ -328,7 +328,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>글로벌인은 견적서도 1분만에</h1>
+    <h1>JAVALLAR는 견적서도 1분만에</h1>
     <form id="form_calc">
 
         <div class="ahg_Quotation_category">

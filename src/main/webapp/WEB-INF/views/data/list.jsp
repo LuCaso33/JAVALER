@@ -75,7 +75,7 @@
 </style>
 </head>
 <body>
-<h3>글로벌 주식회사에 협력, 의뢰신청을 한 회사 리스트</h3>
+<h3>JAVALLAR와 협력, 의뢰신청을 한 회사 리스트</h3>
 <div id="list-top">
 	<ul class="common">
 		<li>
