@@ -95,23 +95,30 @@ h1 {
                     <div class="col-sm-4 custom-col-sm-4">
                         <div class="icon_1"><img src="${pageContext.request.contextPath}/resources/images/icon-1.png"></div>
                         <h4 class="design_text">Logo Design</h4>
-                        <p class="lorem_text">We specialize in creating unique and impactful logos tailored to your brand identity. </p>
-                        <div class="icon_2"><img src="${pageContext.request.contextPath}/resources/images/icon-2.png"></div>
-                        <h4 class="design_text">Web Development</h4>
-                        <p class="lorem_text">From simple websites to complex web applications, we deliver solutions that meet your business needs. </p>
+                        <p class="lorem_text">We specialize in creating unique <br>and impactful logos tailored to your brand identity. </p>
                     </div>
                     <div class="col-sm-4">
-                        <div class="icon_3"><img src="${pageContext.request.contextPath}/resources/images/icon-3.png"></div>
-                        <h4 class="design_text">Web Design</h4>
-                        <p class="lorem_text">Our designs are not just visually appealing but also user-friendly, ensuring a seamless browsing experience. </p>
-                        <div class="icon_4"><img src="${pageContext.request.contextPath}/resources/images/icon-4.png"></div>
-                        <h4 class="design_text">Banner Design</h4>
-                        <p class="lorem_text">Catch the attention of your audience with our creative and eye-catching banner designs. </p>
+                    	<div class="icon_2"><img src="${pageContext.request.contextPath}/resources/images/icon-2.png"></div>
+                        <h4 class="design_text">Web Development</h4>
+                        <p class="lorem_text">From simple websites to complex web applications, <br>we deliver solutions that meet your business needs. </p>
                     </div>
                     <div class="col-sm-4 custom-col-sm-4">
-                        <div class="icon_5"><img src="${pageContext.request.contextPath}/resources/images/icon-5.png"></div>
+                    	<div class="icon_3"><img src="${pageContext.request.contextPath}/resources/images/icon-3.png"></div>
+                        <h4 class="design_text">Web Design</h4>
+                        <p class="lorem_text">Our designs are not just visually appealing <br>but also user-friendly, ensuring a seamless browsing experience. </p>
+                    </div>
+                    <div class="col-sm-4">
+                    	<div class="icon_4"><img src="${pageContext.request.contextPath}/resources/images/icon-4.png"></div>
+                        <h4 class="design_text">Banner Design</h4>
+                        <p class="lorem_text">Catch the attention of your audience <br>with our creative and eye-catching banner designs. </p>
+                    </div>
+                     <div class="col-sm-4 custom-col-sm-4">
+                     	<div class="icon_5"><img src="${pageContext.request.contextPath}/resources/images/icon-5.png"></div>
                         <h4 class="design_text">Social Media Work</h4>
-                        <p class="lorem_text">Enhance your online presence and engagement with our strategic social media marketing services. </p>
+                        <p class="lorem_text">Enhance your online presence and engagement<br> with our strategic social media marketing services. </p>
+                    </div>
+                     <div class="col-sm-4">
+                        <div class="icon_6"><img src="${pageContext.request.contextPath}/resources/images/agency.png" style="width: 20%; height: auto;"></div>
                     </div>
                 </div>
             </div>
@@ -119,7 +126,7 @@ h1 {
     </div>
 
     <!-- </div> -->
-    <%-- <jsp:include page="/WEB-INF/views/include/services.jsp" /> -->
+    <%-- <jsp:include page="/WEB-INF/views/include/services.jsp" /> --%>
     <%-- <jsp:include page="/WEB-INF/views/include/footer.jsp" /> --%>
 </body>
 </html>

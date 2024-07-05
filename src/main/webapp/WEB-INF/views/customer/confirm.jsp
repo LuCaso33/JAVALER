@@ -19,7 +19,7 @@
 		<h2 class="alert alert-primary">신청해주셔서 감사합니다.</h2>
 	</div>
 	<div class="container">
-		<p><a href="/iot" class="btn btn-secondary"> &laquo;메인으로</a>
+		<p><a href="/" class="btn btn-secondary"> &laquo;메인으로</a>
 	</div> 
   </div>
 </body>

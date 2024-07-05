@@ -161,7 +161,7 @@ public class MemberController {
         } else {
             msg += "alert('회원 탈퇴에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.');";
         }
-        msg += "location.href='/iot';"; // 메인 페이지로 이동
+        msg += "location.href='/';"; // 메인 페이지로 이동
         msg += "</script>";
 
         return msg;

@@ -21,8 +21,14 @@
       </style>
       <style>
         body {
-          font-family: Arial, sans-serif;
           background-color: #ffffff;
+        }
+        
+        .ahg_Quotation_category {
+            font-family: Arial, sans-serif;
+            border-bottom: 1px solid red; /* 밑줄 효과 추가 */
+            padding-bottom: 20px; /* 텍스트와 밑줄 사이 여백 추가 */
+            margin-bottom: 20px; /* 밑줄과 다음 요소 사이 간격 추가 */
         }
   
         .ahg_Quotation_category {
@@ -206,6 +212,35 @@
     
         #captureButton:hover {
             background-color: #45a049;
+        }
+        
+        #showTotal {
+            background-color: #4CAF50; /* 버튼 배경 색상 */
+            color: white; /* 버튼 텍스트 색상 */
+            padding: 10px 20px; /* 버튼 패딩 */
+            border: none; /* 버튼 테두리 제거 */
+            border-radius: 5px; /* 버튼 모서리 둥글게 */
+            cursor: pointer; /* 커서 모양 변경 */
+            font-size: 16px; /* 폰트 크기 */
+            transition: background-color 0.3s; /* 배경 색상 전환 효과 */
+        }
+
+        #showTotal:hover {
+            background-color: #45a049; /* 마우스 오버 시 배경 색상 */
+        }
+        
+        #price {
+            font-size: 24px; /* 텍스트 크기를 증가 */
+            font-weight: bold; /* 텍스트를 굵게 */
+            padding: 10px; /* 여백 추가 */
+            border: 1px solid #ccc; /* 테두리 추가 */
+            border-radius: 5px; /* 모서리를 둥글게 */
+            margin-top: 20px; /* 위쪽 간격 */
+            margin-bottom: 20px; /* 아래쪽 간격 */
+        }
+
+        #price span {
+            color: #007bff; /* 텍스트 색상 변경 */
         }
       </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
