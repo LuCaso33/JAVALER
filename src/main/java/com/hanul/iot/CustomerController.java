@@ -35,7 +35,7 @@ public class CustomerController {
     private void addCustomerInfoToModel(HttpSession session, Model model) {
         String writer = (String) session.getAttribute("userId");
         if (writer != null) {
-        	CustomerVO vo = service.writer_detail(writer);
+        	List<CustomerVO> vo = service.writer_detail(writer);
             model.addAttribute("vo", vo);
         }
     }
@@ -44,7 +44,10 @@ public class CustomerController {
     @RequestMapping("myService")
     public String myService(HttpSession session, Model model) {
         addCustomerInfoToModel(session, model);
-        return "member/myService";
+        session.setAttribute("category", "cu");		//카테고리 어트리뷰트에 cu를 설정
+		List<CustomerVO> list = service.customer_list();
+		model.addAttribute("list", list);
+        return "member/myServiceList";
     }
     
     // 마이페이지 -> 나의 서비스 -> 나의 서비스 수정
@@ -66,17 +69,18 @@ public class CustomerController {
 		return "customer/detail";
 	}
 	
-	//신규 고객 등록 화면 요청
+	//유지보수 신청 화면 요청
 	@RequestMapping("/new.cu")
 	public String customer() {
 		return "customer/new";
 	}
 	
+	/*
 	//유지보수 신청 화면 요청
 	@RequestMapping("/order.cu")
 	public String order() {
 		return "customer/order";
-	}
+	}*/
 	
 	//신청 완료 요청
 	@RequestMapping("/confirm.cu")
@@ -94,7 +98,7 @@ public class CustomerController {
 		service.customer_insert(vo);
 		
 		//목록 화면으로 연결
-		return "redirect:list.cu";
+		return "redirect:confirm.cu";
 	}
 	
 	//고객 정보 수정 화면 요청

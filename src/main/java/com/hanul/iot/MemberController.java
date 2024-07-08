@@ -93,7 +93,7 @@ public class MemberController {
 		if(service.member_insert(vo)) {
 			//메일 전송
 			common.sendEmail(vo.getEmail(), vo.getName(), session);
-			msg += "alert('회원가입을 축하드립니다!'); location='" + request.getContextPath() + "'";
+			msg += "alert('회원가입을 축하드립니다!'); location='" + request.getContextPath() + "/'";
 		} else {
 			msg += "alert('회원가입에 실패했습니다!'); history.go(-1)";
 		}
@@ -136,7 +136,7 @@ public class MemberController {
 
         // JavaScript를 사용하여 alert를 표시하고 첫 페이지로 리디렉션
         String msg = "<script type='text/javascript'>";
-        msg += "alert('수정되었습니다!'); location='" + request.getContextPath() + "';";
+        msg += "alert('수정되었습니다!'); location='" + request.getContextPath() + "/'";
         msg += "</script>";
 
         return msg;
@@ -256,7 +256,7 @@ public class MemberController {
 		//이메일 전송 내용
 		String setFrom = "zealot_s@naver.com"; //발신 이메일
 		String toMail = email;         //받는 이메일
-		String title = "글로벌인 회원가입 인증을 위한 이메일 입니다.";
+		String title = "JAVALLAR 회원가입 인증을 위한 이메일 입니다.";
 		String content = 
 						"인증 번호는 " + checkNum + "입니다." + 
 						"해당 인증번호를 인증번호 확인란에 기입하여 주세요.";

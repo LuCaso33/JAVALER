@@ -46,7 +46,7 @@
 	</table>
 </form>
 <div class="btnSet">
-	<a class="btn-fill" onclick="if(necessary()) $('form').submit()">저장</a>
+	<a class="btn-fill" onclick=" $('form').submit()">저장</a>
 	<a class="btn-empty" href="list.no">취소</a>
 </div>
 

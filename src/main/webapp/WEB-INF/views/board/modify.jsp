@@ -37,7 +37,7 @@
 	<input type="hidden" name="id" value="${vo.id }" />
 </form>
 <div class="btnSet">
-	<a class="btn-fill" onclick="if( necessary() ) { $('[name=attach]').val( $('#file-name').text() ); $('form').submit(); }">저장</a>
+	<a class="btn-fill" onclick="{ $('[name=attach]').val( $('#file-name').text() ); $('form').submit(); }">저장</a>
 	<a class="btn-empty" href="javascript:history.go(-1)">취소</a>
 </div>
 <script type="text/javascript" src="js/file_attach.js"></script>

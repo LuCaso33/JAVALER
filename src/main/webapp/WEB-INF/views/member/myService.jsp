@@ -33,7 +33,7 @@
 		</tr>
 	</table>
 		<div class='btnSet'>
-		<a class='btn-fill' href="#" onclick="myServiceModify()">신청 정보 수정</a>
+		<!-- <a class='btn-fill' href="#" onclick="myServiceModify()">신청 정보 수정</a> -->
 		<a class='btn-fill' onclick="if( confirm('정말 삭제하시겠습니까?') ){ href='delete.cu?id=${vo.id }' }" >삭제</a>
 	</div>
 <!-- </div> -->

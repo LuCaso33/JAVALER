@@ -31,8 +31,8 @@ public class CustomDAO implements CustomerService {
 	}
 	
 	@Override
-	public CustomerVO writer_detail(String writer) {
-		return sql.selectOne("customer.mapper.detail_writer", writer);
+	public List<CustomerVO> writer_detail(String writer) {
+		return sql.selectList("customer.mapper.detail_writer", writer);
 	}
 
 	@Override

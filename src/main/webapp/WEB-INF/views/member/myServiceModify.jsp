@@ -87,7 +87,7 @@
 	</form>
 	<div class='btnSet'>
 		<a class="btn-fill" onclick="$('form').submit()">저장</a>
-		<a class='btn-empty' href="#" onclick="myServiceo()">취소</a>
+		<a class='btn-empty' href="#" onclick="myService()">취소</a>
 	</div>
 <!-- </div> -->
 <%-- <jsp:include page="/WEB-INF/views/include/footer.jsp" /> --%>

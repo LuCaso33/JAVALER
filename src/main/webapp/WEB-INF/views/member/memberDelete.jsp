@@ -40,11 +40,11 @@ table tr td input[name=addr] {
 <form action="${pageContext.request.contextPath}/memberDelete" method="post">
 	<table class="w-pct60">
 		<tr>
-		    <th>이메일</th>
+		    <th>ID/PW</th>
 		    <td>
 		        <input type="text" id="id" name="id" >
 		        <input type="password" id="pw" name="pw" >
-		        <input type="submit" value="Find">
+		        <input type="submit" value="탈퇴">
 		        <div class="valid">아이디와 비밀번호를 입력하세요.</div>
 		    </td>
 		</tr>

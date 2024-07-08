@@ -15,7 +15,7 @@ public interface CustomerService {
 	CustomerVO customer_detail(int id);
 	
 	//나의 서비스 확인을 위한 writer 조회
-	CustomerVO writer_detail(String writer);
+	List<CustomerVO> writer_detail(String writer);
 	
 	//고객 정보 변경 저장
 	void customer_update(CustomerVO vo);

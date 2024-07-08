@@ -13,7 +13,7 @@
 
 	<!-- 애스터리스크(*)를 쓰면 ROWNUM 등의 다른 필드를 쓸 수가 없다. -->
 	<select id="list" resultType="customer.CustomerVO">
-		SELECT ROWNUM no, c.* FROM (SELECT * FROM customer ORDER BY writer) c
+		SELECT ROWNUM no, c.* FROM (SELECT * FROM customer ORDER BY id DESC) c
 	</select>
 	
 	<insert id="insert">

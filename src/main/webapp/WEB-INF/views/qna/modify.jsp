@@ -6,7 +6,7 @@
 <title>qna modify jsp</title>
 </head>
 <body>
-<h3>QNA 수정</h3>
+<h3>프로젝트 문의 수정</h3>
 <!-- 
 파일 첨부 시 form 태그의 필수 속성
 1. method="post"
@@ -24,13 +24,13 @@
 			<th>프로젝트 구분</th>
 				<td>
                 <%
-                    String[] options = {"반응형 홈페이지 제작", "PC+MOBILE 홈페이지 제작", "쇼핑몰 제작", "광고페이지 제작" , "기타"};
-                    for (int i = 0; i < options.length; i++) {
-                        String sortation = options[i];
-                        out.println("<input type='checkbox' id='checkbox" + (i+1) + "' name='sortation" + "' value='" + sortation + "'>");
-                        out.println("<label for='checkbox" + (i+1) + "'>" + sortation + "</label>");
-                    }
-                %>
+		            String[] options = {"반응형 홈페이지 제작", "PC+MOBILE 홈페이지 제작", "쇼핑몰 제작", "광고페이지 제작", "기타"};
+		            for (int i = 0; i < options.length; i++) {
+		                String sortation = options[i];
+		                out.println("<input type='checkbox' class='need' id='checkbox" + (i+1) + "' name='sortation' value='" + sortation + "' title='옵션'>");
+		                out.println("<label for='checkbox" + (i+1) + "'>" + sortation + "</label>");
+		            }
+		        %>
 				</td>
 		</tr>
 		<tr>
@@ -50,28 +50,28 @@
 		<tr>
 			<th>프로젝트 예산(만원)</th>
 				<td>
-                <%
-                    String[] options2 = {"100~500", "500~1000", "1000이상"};
-                    for (int i = 0; i < options2.length; i++) {
-                        String budget = options2[i];
-                        out.println("<input type='checkbox' id='checkbox" + (i+1) + "' name='budget" + "' value='" + budget + "'>");
-                        out.println("<label for='checkbox" + (i+1) + "'>" + budget + "</label>");
-                    }
-                %>
-				</td>
+		        <%
+		            String[] options2 = {"100~500", "500~1000", "1000이상"};
+		            for (int i = 0; i < options2.length; i++) {
+		                String budget = options2[i];
+		                out.println("<input type='radio' class='need' id='radioBudget" + (i+1) + "' name='budget' value='" + budget + "' title='예산'>");
+		                out.println("<label for='radioBudget" + (i+1) + "'>" + budget + "</label>");
+		            }
+		        %>
+		    	</td>
 		</tr>
 		<tr>
 			<th>프로젝트 기한</th>
 				<td>
-			    <%
-                    String[] options3 = {"1~3개월 이내", "3~6개월 이내", "6개월 이상"};
-                    for (int i = 0; i < options3.length; i++) {
-                        String limitDate = options3[i];
-                        out.println("<input type='checkbox' id='checkbox" + (i+1) + "' name='limitDate" + "' value='" + limitDate + "'>");
-                        out.println("<label for='checkbox" + (i+1) + "'>" + limitDate + "</label>");
-                    }
-                %>
-                </td>
+		        <%
+		            String[] options3 = {"1~3개월 이내", "3~6개월 이내", "6개월 이상"};
+		            for (int i = 0; i < options3.length; i++) {
+		                String limitDate = options3[i];
+		                out.println("<input type='radio' class='need' id='radio" + (i+1) + "' name='limitDate' value='" + limitDate + "' title='기간'>");
+		                out.println("<label for='radio" + (i+1) + "'>" + limitDate + "</label>");
+		            }
+		        %>
+		    	</td>
 		</tr>
 		<tr>
 			<th class="w-px160">참조 사이트</th>

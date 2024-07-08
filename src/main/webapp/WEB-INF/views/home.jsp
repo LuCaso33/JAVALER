@@ -83,15 +83,13 @@ h1 {
 </style>
 </head>
 <body>
-<<<<<<< HEAD
-=======
 <core:if test="${not empty alertMessage}">
     <script type="text/javascript">
         alert("${alertMessage}");
     </script>
 </core:if>
 <%-- <jsp:include page="/WEB-INF/views/include/header.jsp" /> --%>
->>>>>>> branch 'develop' of https://github.com/LuCaso33/JAVALER.git
+
 <!-- <div id="content"> -->
     <img src="${pageContext.request.contextPath}/resources/images/banner.png" style="width: 80%" />
     <h1>MAKE YOUR DREAMS COME TRUE AT JAVALLAR!</h1>

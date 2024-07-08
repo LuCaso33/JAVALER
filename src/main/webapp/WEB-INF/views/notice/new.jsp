@@ -6,7 +6,7 @@
 <title>new JSP</title>
 </head>
 <body>
-<h3>신규 공지 글</h3>
+<h3>유지보수 문의</h3>
 <!-- 
  - 파일 첨부 시 form 반드시 갖고 있어야 할 속성 
 	1. 반드시 method는 post이어야만 한다.
@@ -41,7 +41,7 @@
 	</table>
 </form>
 <div class="btnSet">
-	<a class="btn-fill" onclick="if(necessary()) $('form').submit()">저장</a>
+	<a class="btn-fill" onclick=" $('form').submit()">저장</a>
 	<a class="btn-empty" href="list.no">취소</a>
 </div>
 

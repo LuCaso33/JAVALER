@@ -25,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
-	public CustomerVO writer_detail(String writer) {
+	public List<CustomerVO> writer_detail(String writer) {
 		return dao.writer_detail(writer);
 	}
 

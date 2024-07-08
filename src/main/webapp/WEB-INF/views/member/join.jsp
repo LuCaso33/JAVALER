@@ -176,9 +176,9 @@ function display_status(div, data) {
 	div.addClass(data.code)
 }
 
-// 만 13세 이상만 선택 가능하게 처리
+// 만 13세 이상만 선택 가능하게 처리(getFullYeea()-13)
 var today = new Date();
-var endDay = new Date( today.getFullYear()-13, today.getMonth(), today.getDate() );
+var endDay = new Date( today.getFullYear(), today.getMonth(), today.getDate() );
 
 $('[name=birth]').datepicker({
 	dateFormat: 'yy-mm-dd',
