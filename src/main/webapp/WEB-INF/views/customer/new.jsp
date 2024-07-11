@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,24 +9,26 @@
 
 </head>
 <body>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
 <%-- <jsp:include page="/WEB-INF/views/include/header.jsp" /> --%>
 <!-- <div id="content"> -->
-	<h3>유지보수 서비스 신청</h3>
+	<h3><fmt:message key="maintenanceRequest" /></h3>
 	<form action="insert.cu" method="post">
 			<table>
 		<tr>
-			<th class="w-px160">제목</th>
-			<td>서비스 신청에 필요한 정보를 입력해주세요</td>
+			<th class="w-px160"><fmt:message key="title" /></th>
+			<td><fmt:message key="enterRequiredInfo" /></td>
 		</tr>
 		<tr>
-			<th>작성자</th>
+			<th><fmt:message key="writer" /></th>
 			<td>${login_info.name }</td>
 		</tr>
 		<tr>
-			<th>상품</th>
+			<th><fmt:message key="product" /></th>
 		<td>
 		<%
-		    String[] options = {"베이직", "스탠다드", "프리미엄"};
+		    String[] options = {"Basic", "Standard", "Premium"};
 		    for (int i = 0; i < options.length; i++) {
 		        String product = options[i];
 		        out.println("<input type='radio' id='radio" + (i+1) + "' name='product' value='" + product + "'>");
@@ -35,31 +38,31 @@
 		</td>
 		</tr>
 		<tr>
-			<th>이용 기간</th>
+			<th><fmt:message key="usagePeriod" /></th>
 				<td>
 					<select name="usagePeriod" id="period">
-		            <option value="1개월">1개월</option>
-		            <option value="3개월">3개월</option>
-		            <option value="6개월">6개월</option>
-		            <option value="12개월">12개월</option>
+		            <option value="1Month">1Month</option>
+		            <option value="3Months">3Months</option>
+		            <option value="6Months">6Months</option>
+		            <option value="12Months">12Months</option>
         			</select>
 				</td>
 		</tr>
 		<tr>
-		    <th>웹호스팅 서비스 신청</th>
+		    <th><fmt:message key="applyWebHostingService" /></th>
 				<td>
                     <input type="checkbox" id="webHostingCheckbox" name="webHosting" value="YES" onchange="toggleInputs()">
-                    <label for="webHostingCheckbox">신청</label>
+                    <label for="webHostingCheckbox"><fmt:message key="application" /></label>
                     <!-- hidden input to send 'NO' if checkbox is unchecked -->
                     <input type="hidden" id="webHostingHidden" name="webHosting" value="NO">
                 </td>
 
 		</tr>
 		<tr>
-		    <th>호스팅 방식</th>
+		    <th><fmt:message key="hostingType" /></th>
 		    <td>
 		        <%
-		            String[] hostingOptions = {"윈도우", "리눅스", "기타"};
+		            String[] hostingOptions = {"Window", "Linux", "Other"};
 		            for (int i = 0; i < hostingOptions.length; i++) {
 		                String hostingType = hostingOptions[i];
 		                out.println("<input type='radio' id='hostingRadio" + (i+1) + "' name='hostingType' value='" + hostingType + "' disabled>");
@@ -72,7 +75,7 @@
 		    <th>서버 규모</th>
 		    <td>
 		        <%
-		            String[] serverSizeOptions = {"대", "중", "소"};
+		            String[] serverSizeOptions = {"Large", "Medium", "Small"};
 		            for (int i = 0; i < serverSizeOptions.length; i++) {
 		                String serverScale = serverSizeOptions[i];
 		                out.println("<input type='radio' id='serverRadio" + (i+1) + "' name='serverScale' value='" + serverScale + "' disabled>");
@@ -82,7 +85,7 @@
 		    </td>
 		</tr>
 		<tr>
-		    <th>웹용량 추가(1GB당 2만원)</th>
+		    <th><fmt:message key="additionalWebStorage" /></th>
 		    <td>
 		        <select name="webStorage" id="additionalCapacity" disabled>
 		            <option value="2GB">2GB</option>
@@ -96,11 +99,12 @@
 	</form>
 	
 	<div class="btnSet">
-		<a class="btn-fill" onclick="$('form').submit()">저장</a>
-		<a class="btn-empty" href="list.cu">취소</a>
+		<a class="btn-fill" onclick="$('form').submit()"><fmt:message key="save" /></a>
+		<a class="btn-empty" href="list.cu"><fmt:message key="cancel" /></a>
 	</div>
 <!-- </div> -->
 <%-- <jsp:include page="/WEB-INF/views/include/footer.jsp" /> --%>
+</fmt:bundle>
 <script type="text/javascript" src="js/need_check.js?v=<%=new java.util.Date().getTime() %>"></script>
 <script type="text/javascript" src="js/file_attach.js"></script>
 <script>

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,23 +7,25 @@
 <title>board new jsp</title>
 </head>
 <body>
-<h3>채용신청 작성</h3>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3><fmt:message key="applyForAJobModify" /></h3>
 <form action="insert.bo" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
-			<th class="w-px160">제목</th>
+			<th class="w-px160"><fmt:message key="title" /></th>
 			<td><input type="text" name="title" class="need" title="제목"/></td>
 		</tr>
 		<tr>
-			<th>작성자</th>
+			<th><fmt:message key="writer" /></th>
 			<td>${login_info.name }</td>
 		</tr>
 		<tr>
-			<th>내용</th>
+			<th><fmt:message key="content" /></th>
 			<td><textarea name="content" class="need" title="내용"></textarea></td>
 		</tr>
 		<tr>
-			<th>첨부 파일</th>
+			<th><fmt:message key="attachments" /></th>
 			<td class="left">
 				<label>
 					<input type="file" name="file" id="attach-file" />
@@ -38,9 +41,10 @@
 	</table>
 </form>
 <div class="btnSet">
-	<a class="btn-fill" onclick="{ $('form').submit() }">저장</a>
-	<a class="btn-empty" href="list.bo">취소</a>
+	<a class="btn-fill" onclick="{ $('form').submit() }"><fmt:message key="save" /></a>
+	<a class="btn-empty" href="list.bo"><fmt:message key="cancel" /></a>
 </div>
+</fmt:bundle>
 <script type="text/javascript">
 function isImage(filename){
 	//ab.txt, abc.png, abc.JPG, abcd.hwp, ...

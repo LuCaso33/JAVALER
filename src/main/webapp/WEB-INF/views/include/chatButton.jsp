@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- 1:1 채팅 버튼 아이콘 CSS -->
 
 <style>
@@ -43,6 +44,9 @@
     }
 </script>
 <!-- 1:1 채팅 버튼 아이콘 -->
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
 <div id="message-parts">
-    <a onclick="openChat()"><i class="fas fa-comment-dots"></i>チャット対応中</a>
+    <a onclick="openChat()"><i class="fas fa-comment-dots"></i><fmt:message key="chatting" /></a>
 </div>
+</fmt:bundle>

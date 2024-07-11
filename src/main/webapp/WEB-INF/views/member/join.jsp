@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,54 +37,56 @@ table tr td input[name=addr] {
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>	
 <body>
-<h3>회원가입</h3>
-<p class="w-pct60 right" style="margin: 0 auto; padding-bottom: 5px; font-size: 13px;">*는 필수 입력 항목입니다.</p>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3><fmt:message key="registration" /></h3>
+<p class="w-pct60 right" style="margin: 0 auto; padding-bottom: 5px; font-size: 13px;">*<fmt:message key="isRequired" /></p>
 <form action='join' method='post'>
 	<table class="w-pct60">
 		<tr>
-			<th class="w-px160">* 성명</th>
+			<th class="w-px160">* <fmt:message key="fullName" /></th>
 			<td><input type="text" name="name" /></td>
 		</tr>
 		<tr>
-			<th>* 아이디</th>
+			<th>* <fmt:message key="userId" /></th>
 			<td>
-				<input type="text" title="아이디" name="id" class="chk"/><a id="btn-id" class='btn-fill-s'>중복 확인</a><br>
-				<div class='valid'>아이디를 입력하세요. (영문 소문자, 숫자만 입력 가능)</div>
+				<input type="text" title="아이디" name="id" class="chk"/><a id="btn-id" class='btn-fill-s'><fmt:message key="checkDuplicate" /></a><br>
+				<div class='valid'><fmt:message key="enterUserId" /></div>
 			</td>
 		</tr>
 		<tr>
-			<th>* 비밀번호</th>
+			<th>* <fmt:message key="password" /></th>
 			<td>
 				<input type="password" title="비밀번호" name="pw" class="chk" />
-				<div class="valid">비밀번호를 입력하세요. (영문 대/소문자, 숫자를 모두 포함)</div>
+				<div class="valid"><fmt:message key="enterPassword" /></div>
 			</td>
 			
 		</tr>
 		<tr>
-			<th>* 비밀번호 확인</th>
+			<th>* <fmt:message key="confirmPassword" /></th>
 			<td>
 				<input type="password" title="비밀번호 확인" name="pw_ck" class="chk" />
-				<div class="valid">비밀번호를 다시 입력하세요. </div>
+				<div class="valid"><fmt:message key="reEnterPassword" /> </div>
 			</td>
 		</tr>
 		<tr>
-			<th>* 성별</th>
+			<th>* <fmt:message key="gender" /></th>
 			<td>
-				<label><input type="radio" name="gender" value="남" checked/>남</label>
-				<label><input type="radio" name="gender" value="여" />여</label>
+				<label><input type="radio" name="gender" value="male" checked/><fmt:message key="male" /></label>
+				<label><input type="radio" name="gender" value="female" /><fmt:message key="female" /></label>
 			</td>
 		</tr>
 		<tr>
-		    <th>* 이메일</th>
+		    <th>* <fmt:message key="email" /></th>
 		    <td>
 		        <input type="text" id="email" title="이메일" name="email" class="chk" />
-		        <a id="auth_btn" class='btn-fill-s'>인증번호 전송</a><br>
+		        <a id="auth_btn" class='btn-fill-s'><fmt:message key="sendVerificationCode" /></a><br>
 		        <input type="text" class="mail-check-input" placeholder="인증번호 입력" disabled />
-		        <div class="valid">이메일을 입력하세요.</div>
+		        <div class="valid"><fmt:message key="enterEmail" /></div>
 		    </td>
 		</tr>
 		<tr>
-			<th>생년월일</th>
+			<th><fmt:message key="birthDate" /></th>
 			<td>
 				<input type="text" name="birth" readonly />
 				<span id="delete" style="color: red; position: relative; right: 25px; display: none;"><i class="fas fa-times font-img"></i></span>
@@ -91,7 +94,7 @@ table tr td input[name=addr] {
 			</td>
 		</tr>
 		<tr>
-			<th>전화번호</th>
+			<th><fmt:message key="phoneNumber" /></th>
 			<td>
 				<input type="text" name="tel" /> - 
 				<input type="text" name="tel" /> - 
@@ -99,9 +102,9 @@ table tr td input[name=addr] {
 			</td>
 		</tr>
 		<tr>
-			<th>주소</th>
+			<th><fmt:message key="address" /></th>
 			<td>
-				<a class='btn-fill-s' onclick="daum_post()">우편번호 찾기</a>
+				<a class='btn-fill-s' onclick="daum_post()"><fmt:message key="findPostalCode" /></a>
 				<input type="text" name="post"  class="w-px60" readonly />
 				<input type="text" name="addr" readonly/>
 				<input type="text" name="addr" />
@@ -110,8 +113,8 @@ table tr td input[name=addr] {
 	</table>
 </form>
 <div class="btnSet">
-	<a class="btn-fill" onclick="go_join()">회원가입</a>
-	<a class="btn-empty" onclick="history.go(-1)">취소</a>
+	<a class="btn-fill" onclick="go_join()"><fmt:message key="registration" /></a>
+	<a class="btn-empty" onclick="history.go(-1)"><fmt:message key="cancel" /></a>
 </div>
 <!-- ?v=<new java.util.Date().getTime()>을 붙이면 기다릴 필요 없이 수정사항이 바로바로 새로고침이 된다.-->
 <script type="text/javascript" src="js/join_check.js?v=<%=new java.util.Date().getTime()%>"></script>
@@ -315,5 +318,6 @@ function item_check(item) {
 		}
 	});
 </script>
+</fmt:bundle>
 </body>
 </html>

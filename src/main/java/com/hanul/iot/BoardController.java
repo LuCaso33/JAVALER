@@ -26,7 +26,7 @@ import member.MemberVO;
 
 @Controller
 public class BoardController {
-	@Autowired private BoardServiceImpl service;
+	@Autowired private BoardServiceImpl boardService;
 	@Autowired private BoardPage page;
 	@Autowired private MyPostPage postPage;
 	@Autowired private CommonService common;
@@ -45,7 +45,7 @@ public class BoardController {
 		page.setPageList(pageList);
 		page.setViewType(viewType);
 		
-		model.addAttribute("page", service.board_list(page));
+		model.addAttribute("page", boardService.board_list(page));
 		
         // 모든 myPost의 id를 리스트로 가져옴
 		String userId = (String) session.getAttribute("userId");
@@ -70,7 +70,7 @@ public class BoardController {
 			vo.setFilepath(common.upload("board", file, session));
 		}
 		vo.setWriter( ((MemberVO) session.getAttribute("login_info")).getId() );
-		service.board_insert(vo);
+		boardService.board_insert(vo);
 		return "redirect:list.bo";
 	} //insert()
 	
@@ -78,8 +78,8 @@ public class BoardController {
 	@RequestMapping("/detail.bo")
 	public String detail(int id, Model model, HttpSession session) {
 		//선택한 방명록 글을 DB에서 조회해와 상세 화면에 출력
-		service.board_read(id);
-		model.addAttribute("vo", service.board_detail(id));
+		boardService.board_read(id);
+		model.addAttribute("vo", boardService.board_detail(id));
 		model.addAttribute("page", page);
 		model.addAttribute("crlf", "\r\n");
 		
@@ -93,7 +93,7 @@ public class BoardController {
 	        if ("Y".equals(loginInfo.getAdmin())) {
 	            canAccessDetail = true;
 	        } else if (myPostIds != null) {
-	            if (myPostIds.contains((Integer) service.board_detail(id).getId())) {
+	            if (myPostIds.contains((Integer) boardService.board_detail(id).getId())) {
 	                canAccessDetail = true;
 	            }
 	        }
@@ -115,7 +115,7 @@ public class BoardController {
 	@ResponseBody @RequestMapping("/download.bo")
 	public void download(int id, HttpSession session, HttpServletResponse response) {
 		//해당 글의 첨부 파일 정보를 조회해와 다운로드한다.
-		BoardVO vo = service.board_detail(id);
+		BoardVO vo = boardService.board_detail(id);
 		common.download(vo.getFilename(), vo.getFilepath(), session, response);
 	} //download()
 	
@@ -123,7 +123,7 @@ public class BoardController {
 	@RequestMapping("/modify.bo")
 	public String modify(int id, Model model) {
 		//선택한 방명록 글의 정보를 DB에서 조회해와 수정 화면에 출력
-		model.addAttribute("vo", service.board_detail(id));
+		model.addAttribute("vo", boardService.board_detail(id));
 		return "board/modify";
 	} //modify()
 	
@@ -131,7 +131,7 @@ public class BoardController {
 	@RequestMapping("/update.bo")
 	public String update(BoardVO vo, MultipartFile file, HttpSession session, String attach, Model model) {
 		//화면에서 입력한 정보를 DB에 변경, 저장한 후 상세 화면으로 연결
-		BoardVO board = service.board_detail(vo.getId());
+		BoardVO board = boardService.board_detail(vo.getId());
 		String uuid = session.getServletContext().getRealPath("resources") + board.getFilepath();
 		
 		//파일을 첨부한 경우 - 없었는데 새로 첨부, 있었는데 바꿔 첨부
@@ -153,7 +153,7 @@ public class BoardController {
 				vo.setFilepath(board.getFilepath());
 			}
 		}
-		service.board_update(vo);
+		boardService.board_update(vo);
 		
 		//기존 방법
 		//return "redirect:detail.bo?id=" + vo.getId();
@@ -168,7 +168,7 @@ public class BoardController {
 	@RequestMapping("/delete.bo")
 	public String delete(int id, Model model) {
 		//선택한 글을 DB에서 삭제한 후 목록 화면으로 연결
-		service.board_delete(id);
+		boardService.board_delete(id);
 		model.addAttribute("url", "list.bo");
 		model.addAttribute("id", id);
 		model.addAttribute("page", page);
@@ -181,14 +181,14 @@ public class BoardController {
 	public boolean comment_insert(BoardCommentVO vo, HttpSession session) {
 		//화면에서 입력한 정보를 DB에 저장한다.
 		vo.setWriter( ((MemberVO) session.getAttribute("login_info")).getId());
-		return service.board_comment_insert(vo) > 0 ? true : false;
+		return boardService.board_comment_insert(vo) > 0 ? true : false;
 	} //comment_insert()
 	
 	//댓글 목록 조회 요청====================================================================
 	@RequestMapping("/board/comment/{pid}")
 	public String comment_list(@PathVariable int pid, Model model) {
 		//DB에서 댓글 목록을 조회해와 댓글 목록 화면에 출력
-		model.addAttribute("list", service.board_comment_list(pid));
+		model.addAttribute("list", boardService.board_comment_list(pid));
 		model.addAttribute("crlf", "\r\n");
 		model.addAttribute("lf", "\n");		// lf의 형태로 라인피드가 저장될 수도 있어서 윗라인이 적용이 안될경우 이 코드도 작성한다.
 		
@@ -198,14 +198,14 @@ public class BoardController {
 	//댓글 변경 저장 처리 요청
 	@ResponseBody @RequestMapping(value="/board/comment/update", produces="application/text; charset=utf-8")
 	public String comment_update(@RequestBody BoardCommentVO vo) {
-		return service.board_comment_update(vo) > 0 ? "성공" : "실패";
+		return boardService.board_comment_update(vo) > 0 ? "성공" : "실패";
 	} //comment_update()
 	
 	//댓글 삭제 처리 요청
 	//ResponseBody : 화면(jsp)으로 연결이 아니라 호출한쪽으로 돌아갈때 사용하는 어노테이션
 	@ResponseBody @RequestMapping("/board/comment/delete/{id}")
 	public void comment_delete(@PathVariable int id) {
-		service.board_comment_delete(id);	
+		boardService.board_comment_delete(id);	
 	} //comment_delete()
 	
 	
@@ -231,7 +231,7 @@ public class BoardController {
         postPage.setViewType(viewType);
         String writer = ((MemberVO) session.getAttribute("login_info")).getId();
         postPage.setWriter(writer);
-        model.addAttribute("page", service.myPostList(postPage, writer));
+        model.addAttribute("page", boardService.myPostList(postPage, writer));
         
         return "member/myPost";
     }

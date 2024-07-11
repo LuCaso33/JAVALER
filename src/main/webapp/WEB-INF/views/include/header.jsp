@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- 스프링은 따로 라이브러리를 설치하지 않아도 다운 받을 라이브러리를 설정할 수 있다. -->
 <!-- 그 중에 jstl 라이브러리도 있기 때문에 사용할 수 있는것 -->
 <!-- 라이브러리 목록은 iot/pom.xml, c:\사용자\.m2에서 확인가능 -->
@@ -73,15 +74,18 @@ header ul li input { display:block; }
 }
 
 </style>
+
 <header style="border-bottom: 1px solid #ccc; padding: 15px 0; text-align: left">
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
 	<div class="category" style="margin-left: 100px;"> 
 		<ul>
 			<li><a href="<core:url value='/' />"><img src="${pageContext.request.contextPath}/resources/images/logo.png" /></a></li>
-			<li><a href='list.da' ${category eq 'da' ? "class='active'" : '' } >협력기업</a></li>
-			<li><a href='list.qna' ${category eq 'qna' ? "class='active'" : '' } >프로젝트 문의</a></li>
-			<li><a href='list.no' ${category eq 'no' ? "class='active'" : '' } >유지보수 문의</a></li>
-			<li><a href='list.cu' ${category eq 'cu' ? "class='active'" : '' } >유지보수 신청</a></li>
-			<li><a href='list.bo' ${category eq 'bo' ? "class='active'" : '' } >채용신청</a></li>
+			<li><a href='list.da' ${category eq 'da' ? "class='active'" : '' } ><fmt:message key="partners" /></a></li>
+			<li><a href='list.qna' ${category eq 'qna' ? "class='active'" : '' } ><fmt:message key="projectInquiries" /></a></li>
+			<li><a href='list.no' ${category eq 'no' ? "class='active'" : '' } ><fmt:message key="maintenanceInquiries" /></a></li>
+			<li><a href='list.cu' ${category eq 'cu' ? "class='active'" : '' } ><fmt:message key="maintenanceRequest" /></a></li>
+			<li><a href='list.bo' ${category eq 'bo' ? "class='active'" : '' } ><fmt:message key="applyForAJob" /></a></li>
 		</ul>
 	</div>
 	
@@ -90,16 +94,16 @@ header ul li input { display:block; }
 		<core:if test="${!empty login_info }">
 			<ul>
 				<li class="dropdown">
-					<a href="javascript:void(0)" class="dropbtn">마이페이지</a>
+					<a href="javascript:void(0)" class="dropbtn"><fmt:message key="myPage" /></a>
 					<div class="dropdown-content">
-						<a href="#" onclick="myService()">나의 서비스</a>
-						<a href="#" onclick="myPost()">나의 게시글</a>
-						<a href="#" onclick="memberInfo()">회원정보</a>
-						<a href="#" onclick="memberDelete()">회원탈퇴</a>
+						<a href="#" onclick="myService()"><fmt:message key="myService" /></a>
+						<a href="#" onclick="myPost()"><fmt:message key="myPost" /></a>
+						<a href="#" onclick="memberInfo()"><fmt:message key="myInfo" /></a>
+						<a href="#" onclick="memberDelete()"><fmt:message key="accountDelete" /></a>
 					</div>
 				</li>
 				<li>${login_info.name } [ ${login_info.id } ]</li>
-				<li><a class="btn-fill" onclick="go_logout()">로그아웃</a></li>
+				<li><a class="btn-fill" onclick="go_logout()"><fmt:message key="logOut" /></a></li>
 			</ul>
 		</core:if>
 
@@ -108,26 +112,27 @@ header ul li input { display:block; }
 			 <ul>
 			 	<li>
 			 		<span style="position: absolute; top: -14px; left: -120px">
-						<input type="text" id="userid" placeholder="아이디" />
-						<input type="password" onkeypress="if(event.keyCode == 13) {go_login()}" id="userpw" placeholder="비밀번호" />
+						<input type="text" id="userid" placeholder="ID" />
+						<input type="password" onkeypress="if(event.keyCode == 13) {go_login()}" id="userpw" placeholder="Password" />
 			 		</span>
 			 	</li>
-			 	<li><a class="btn-fill" href="findUser">ID/PW 찾기</a></li>
-			 	<li><a class="btn-fill" onclick="go_login()">로그인</a></li>
-			 	<li><a class="btn-fill" href="member">회원가입</a></li>
+			 	<li><a class="btn-fill" href="findUser"><fmt:message key="findAccount" /></a></li>
+			 	<li><a class="btn-fill" onclick="go_login()"><fmt:message key="logIn" /></a></li>
+			 	<li><a class="btn-fill" href="member"><fmt:message key="signUp" /></a></li>
 			 </ul>
 		 </core:if>
 	</div>
+</fmt:bundle>
 </header>
 
 <script>
 function go_login() {
 	if( $('#userid').val() == '' ) {
-		alert('아이디를 입력하세요!');
+		alert('IDを入力して下さい!');
 		$('#userid').focus();
 		return;
 	} else if( $('#userpw').val() == '' ) {
-		alert('비밀번호를 입력하세요!');
+		alert('パスワードを入力して下さい!');
 		$('#userpw').focus();
 		return;
 	}
@@ -140,7 +145,7 @@ function go_login() {
 			if(data == 'true') {
 				location.reload();
 			} else {
-				alert('아이디나 비밀번호가 일치하지 않습니다!');
+				alert('アカウント情報が正しくありません！');
 				$("#userid").focus();
 			}
 		},

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,26 +40,28 @@ table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바�
 </style>
 </head>
 <body>
-<h3>채용신청 상세 조회</h3>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3><fmt:message key="applyForAJob" /></h3>
 <table>
 	<tr>
-		<th class="w-px160">제목</th>
+		<th class="w-px160"><fmt:message key="title" /></th>
 		<td class="left" colspan="5" class="left">${vo.title }</td>
 	</tr>
 	<tr>
-		<th>작성자</th>
+		<th><fmt:message key="writer" /></th>
 		<td>${vo.name }</td>
-		<th class="w-px100">작성일자</th>
+		<th class="w-px100"><fmt:message key="postDate" /></th>
 		<td class="w-px100">${vo.writedate }</td>
-		<th class="w-px80">조회수</th>
+		<th class="w-px80"><fmt:message key="views" /></th>
 		<td class="w-px60">${vo.readcnt }</td>
 	</tr>
 	<tr>
-		<th>내용</th>
+		<th><fmt:message key="content" /></th>
 		<td class="left" colspan="5">${fn:replace(vo.content, crlf, '<br>') }</td>
 	</tr>
 	<tr>
-		<th>첨부 파일</th>
+		<th><fmt:message key="attachments" /></th>
 		<td class="left" colspan="5">
 			<core:if test="${!empty vo.filename }">
 				${vo.filename }
@@ -69,20 +72,20 @@ table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바�
 	</tr>
 </table>
 <div class="btnSet">
-	<a class="btn-fill" onclick="go_list()">목록으로</a>
+	<a class="btn-fill" onclick="go_list()"><fmt:message key="goList" /></a>
 	<!-- 작성자로 로그인한 경우만 수정/삭제 가능, 관리자는 삭제 가능 -->
 	<core:if test="${login_info.id eq vo.writer}"> 
-		<a class="btn-fill" onclick="$('form').attr('action', 'modify.bo'); $('form').submit()">수정</a>
+		<a class="btn-fill" onclick="$('form').attr('action', 'modify.bo'); $('form').submit()"><fmt:message key="modify" /></a>
 	</core:if>
 	<core:if test="${login_info.id eq vo.writer or login_info.admin eq 'Y' }"> 
-		<a class="btn-fill" onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete.bo'); $('form').submit(); } ">삭제</a>
+		<a class="btn-fill" onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete.bo'); $('form').submit(); } "><fmt:message key="delete" /></a>
 	</core:if>
 </div>
 
 <div style="margin:0 auto; padding-top:20px; width:500px;">
 	<div id="comment_regist">
-		<span class="left">댓글 작성</span>
-		<span class="right"><a class="btn-fill-s" onclick="comment_regist()">등록</a></span>
+		<span class="left"><fmt:message key="reply" /></span>
+		<span class="right"><a class="btn-fill-s" onclick="comment_regist()"><fmt:message key="register" /></a></span>
 		<textarea id="comment" style="width:99%; height:60px; margin-top:5px; resize:none;"></textarea>
 	</div>
 	<div id="comment_list" style="text-align:left"></div>
@@ -99,6 +102,7 @@ table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바�
 </form>
 <div id="popup" onclick ="$('#popup, #popup-background').css('display', 'none')"></div>
 <div id="popup-background"></div>
+</fmt:bundle>
 <script type="text/javascript">
 function go_list() {
     if ('${sessionScope.category}' === 'myPost') {

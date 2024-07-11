@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,18 +37,21 @@ table tr td input[name=addr] {
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>	
 <body>
-<h3>ID/PW 찾기</h3>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3><fmt:message key="findIdPassword" /></h3>
 <form action="${pageContext.request.contextPath}/findUser" method="post">
 	<table class="w-pct60">
 		<tr>
-		    <th>이메일</th>
+		    <th><fmt:message key="email" /></th>
 		    <td>
 		        <input type="email" id="email" name="email" >
 		        <input type="submit" value="Find">
-		        <div class="valid">이메일을 입력하세요.</div>
+		        <div class="valid"><fmt:message key="enterEmail" /></div>
 		    </td>
 		</tr>
 	</table>
 </form>
+</fmt:bundle>
 </body>
 </html>

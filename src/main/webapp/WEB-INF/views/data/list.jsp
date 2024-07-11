@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,14 +76,16 @@
 </style>
 </head>
 <body>
-<h3>JAVALLAR와 협력, 의뢰신청을 한 회사 리스트</h3>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3><fmt:message key="partnerApi" /></h3>
 <div id="list-top">
 	<ul class="common">
 		<li>
 			<select id="pageList" class="w-px80">
-				<option value="10">10개씩</option>
-				<option value="50">50개씩</option>
-				<option value="100">100개씩</option>
+				<option value="10">10<fmt:message key="items" /></option>
+				<option value="50">50<fmt:message key="items" /></option>
+				<option value="100">100<fmt:message key="items" /></option>
 			</select>
 		</li>
 		<li class="list-view" >
@@ -103,7 +106,7 @@
 <div id="map-background"></div>
 <div id="map"></div>
 
-
+</fmt:bundle>
 <script type="text/javascript">
 var viewType="list";
 

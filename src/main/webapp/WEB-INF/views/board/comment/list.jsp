@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core" %>
 <%@ taglib  uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
 <core:forEach items="${list }" var="vo" varStatus="status"> 
 	<!-- varStatus 인덱스값 찾아갈때 사용하는 속성 -->
 	${status.index eq 0 ? '<hr>' : '' }
@@ -8,8 +11,8 @@
 		${vo.name } [${vo.writedate }]
 		<core:if test="${login_info.id eq vo.writer }"><!-- 로그인한 사용자가 작성한 댓글 수정/삭제 기능 -->
 			<span style="float:right;">
-				<a class="btn-fill-s btn-modify-save">수정</a>
-				<a class="btn-fill-s btn-delete-cancel">삭제</a>
+				<a class="btn-fill-s btn-modify-save"><fmt:message key="modify" /></a>
+				<a class="btn-fill-s btn-delete-cancel"><fmt:message key="delete" /></a>
 			</span>
 		</core:if>
 		<div class="original">${fn:replace(fn:replace(vo.content, lf, '<br>' ), crlf, '<br>') }</div>
@@ -17,6 +20,7 @@
 	</div>
 	<hr>
 </core:forEach>
+</fmt:bundle>
 <script>
 /* closest()
  현재 element 에서 탐색 출발
@@ -37,7 +41,7 @@ $('.original').each(function(){
 $('.btn-modify-save').on('click', function(){
 	var $div = $(this).closest('div');
 
-	if( $(this).text() == '수정' ) {
+	if( $(this).text() == '수정' ||  $(this).text() == '編集'  ) {
 		//수정 텍스트 창 크기 고정
 		$div.children('.modify').css('height', $div.children('.original').height()-6); 
 
@@ -69,10 +73,10 @@ $('.btn-modify-save').on('click', function(){
 $('.btn-delete-cancel').on('click', function(){
 	var $div = $(this).closest('div');
 
-	if( $(this).text() == '취소' ) {
+	if( $(this).text() == '취소' ||  $(this).text() == '取り消し' ) {
 		display($div, 'd');
 	} else {
-		if( confirm('정말 삭제하시겠습니까?') ) {
+		if( confirm('本当に削除しますか?') ) {
 			$.ajax({
 				url: 'board/comment/delete/' + $div.data('id'),
 				success: function() {

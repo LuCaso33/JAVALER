@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>My Posts</title>
+<title><fmt:message key="myPosts" />s</title>
 <style type="text/css">
 table { table-layout:fixed; }
 table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -12,7 +13,9 @@ table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 </style>
 </head>
 <body>
-<h3>My Posts</h3>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3><fmt:message key="myPosts" /></h3>
 <form id="list" method="post" action="">
     <input type="hidden" name="curPage" value="1" />
     <input type="hidden" name="id" />
@@ -21,30 +24,30 @@ table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
             <ul>
                 <li>
                     <select name="search" class="w-px80">
-                        <option value="all" ${page.search eq 'all' ? 'selected' : '' }>전체</option>
-                        <option value="title" ${page.search eq 'title' ? 'selected' : '' }>제목</option>
-                        <option value="content" ${page.search eq 'content' ? 'selected' : '' }>내용</option>
+                        <option value="all" ${page.search eq 'all' ? 'selected' : '' }><fmt:message key="entire" /></option>
+                        <option value="title" ${page.search eq 'title' ? 'selected' : '' }><fmt:message key="title" /></option>
+                        <option value="content" ${page.search eq 'content' ? 'selected' : '' }><fmt:message key="content" /></option>
                     </select>
                 </li>
                 <li>
                     <input type="text" name="keyword" class="w-px300"/>
                 </li>
                 <li>
-                    <a class="btn-fill" onclick="$('form').submit()">검색</a>
+                    <a class="btn-fill" onclick="$('form').submit()"><fmt:message key="search" /></a>
                 </li>
             </ul>
             <ul>
                 <li>
                     <select name="pageList" class="w-px80" onchange="$('[name=curPage]').val(1); $('form').submit()">
-                        <option value="10" ${page.pageList eq 10 ? 'selected' : '' }>10개씩</option>
-                        <option value="20" ${page.pageList eq 20 ? 'selected' : '' }>20개씩</option>
-                        <option value="30" ${page.pageList eq 30 ? 'selected' : '' }>30개씩</option>
+                        <option value="10" ${page.pageList eq 10 ? 'selected' : '' }>10<fmt:message key="items" /></option>
+                        <option value="20" ${page.pageList eq 20 ? 'selected' : '' }>20<fmt:message key="items" /></option>
+                        <option value="30" ${page.pageList eq 30 ? 'selected' : '' }>30<fmt:message key="items" /></option>
                     </select>
                 </li>
                 <li>
                     <select name="viewType" class="w-px100" onchange="$('form').submit()">
-                        <option value="list" ${page.viewType eq 'list' ? 'selected' : '' }>리스트 형태</option>
-                        <option value="grid" ${page.viewType eq 'grid' ? 'selected' : '' }>바둑판 형태</option>
+                        <option value="list" ${page.viewType eq 'list' ? 'selected' : '' }><fmt:message key="listFormat" /></option>
+                        <option value="grid" ${page.viewType eq 'grid' ? 'selected' : '' }><fmt:message key="checkerboardFormat" /></option>
                     </select>
                 </li>
             </ul>
@@ -56,11 +59,11 @@ table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     <core:if test="${page.viewType eq 'list' }">
         <table>
             <tr>
-                <th class="w-px60">번호</th>
-                <th>제목</th>
-                <th class="w-px100">작성자</th>
-                <th class="w-px120">작성일자</th>
-                <th class="w-px60">첨부파일</th>
+                <th class="w-px60"><fmt:message key="number" /></th>
+                <th><fmt:message key="title" /></th>
+                <th class="w-px100"><fmt:message key="writer" /></th>
+                <th class="w-px120"><fmt:message key="postDate" /></th>
+                <th class="w-px60"><fmt:message key="attachments" /></th>
             </tr>
             <core:forEach items="${page.list }" var="vo">
                 <tr>
@@ -97,6 +100,7 @@ table td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 <div class="btnSet">
     <jsp:include page="/WEB-INF/views/include/page.jsp"/>
 </div>
+</fmt:bundle>
 <script type="text/javascript">
 $(function(){
     $('#data-list ul').css('height', 

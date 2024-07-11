@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- クイック見積ボタンアイコン CSS -->
 
 <style>
@@ -44,6 +45,9 @@
 </script> -->
 
 <!-- クイック見積ボタンアイコン -->
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
 <div id="estimate-parts">
-    <a href="${pageContext.request.contextPath}/estimate"><i class="fas fa-file-alt"></i>クイック見積</a>
+    <a href="${pageContext.request.contextPath}/estimate"><i class="fas fa-file-alt"></i><fmt:message key="quickEstimate" /></a>
 </div>
+</fmt:bundle>

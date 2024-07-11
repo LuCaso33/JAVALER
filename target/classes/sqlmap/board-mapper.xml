@@ -8,7 +8,7 @@
 	<select id="list" resultType="board.BoardVO">
 		SELECT n.*, (SELECT name FROM member WHERE member.id=writer) name
 		FROM (SELECT b.*, ROWNUM no
-	   	 	  FROM (SELECT * FROM board <include refid="search"/> ORDER by id) b
+	   	 	  FROM (SELECT * FROM board <include refid="search"/> ORDER by WRITEDATE) b
 			  ORDER BY no DESC) n
 		WHERE no BETWEEN #{beginList } AND #{endList }
 					

@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>고객 정보 수정</title>
+<title><fmt:message key="editCustomerInfo" /></title>
 <style type="text/css">
 table tr td {
 	text-align: left;
@@ -36,33 +37,35 @@ table tr td input[name=addr] {
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
-<h3>[ ${vo.name } ]나의 정보</h3>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3>[ ${vo.name } ]<fmt:message key="myInfo" /></h3>
 <form action="memberUpdate" method="post">
 	<table class='w-pct60'>
 		<tr>
-			<th class='w-px160'>이름</th>
+			<th class='w-px160'><fmt:message key="name" /></th>
 			<td><input type="text" name="name" value="${vo.name }" /></td>
 		</tr>
 		<tr>
-			<th> 성별</th>
+			<th> <fmt:message key="gender" /></th>
 			<td>
-				<label><input type="radio" name="gender" value="남" checked/>남</label>
-				<label><input type="radio" name="gender" value="여" />여</label>
+				<label><input type="radio" name="gender" value="male" checked/><fmt:message key="male" /></label>
+				<label><input type="radio" name="gender" value="female" /><fmt:message key="female" /></label>
 			</td>
 		</tr>
 		<tr>
-			<th>생년월일</th>
+			<th><fmt:message key="birthDate" /></th>
 			<td>
 				<input type="text" name="birth" readonly />
 				<span id="delete" style="color: red; position: relative; right: 25px; display: none;"><i class="fas fa-times font-img"></i></span>
 			</td>
 		</tr>
 		<tr>
-			<th>이메일</th>
+			<th><fmt:message key="email" /></th>
 			<td><input type="text" name="email" value="${vo.email }" /></td>
 		</tr>
 		<tr>
-			<th>전화번호</th>
+			<th><fmt:message key="phoneNumber" /></th>
 			<td>
 				<input type="text" name="tel" /> - 
 				<input type="text" name="tel" /> - 
@@ -70,9 +73,9 @@ table tr td input[name=addr] {
 			</td>
 		</tr>
 		<tr>
-			<th>주소</th>
+			<th><fmt:message key="address" /></th>
 			<td>
-				<a class='btn-fill-s' onclick="daum_post()">우편번호 찾기</a>
+				<a class='btn-fill-s' onclick="daum_post()"><fmt:message key="findPostalCode" /></a>
 				<input type="text" name="post"  class="w-px60" readonly />
 				<input type="text" name="addr" readonly/>
 				<input type="text" name="addr" />
@@ -81,10 +84,10 @@ table tr td input[name=addr] {
 	</table>
 </form>
 <div class='btnSet'>
-	<a class="btn-fill" onclick="$('form').submit()">저장</a>
-	<a class='btn-empty' href="#" onclick="memberInfo()">취소</a>
+	<a class="btn-fill" onclick="$('form').submit()"><fmt:message key="save" /></a>
+	<a class='btn-empty' href="#" onclick="memberInfo()"><fmt:message key="cancel" /></a>
 </div>
-
+</fmt:bundle>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -98,8 +101,8 @@ $(function() {
 		changeYear: true,
 		changeMonth: true,
 		showMonthAfterYear: true,
-		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-		monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		dayNamesMin: ['日', '月', '火', '水', '木', '金', '土'],
+		monthNamesShort: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
 		maxDate: endDay
 	});
 

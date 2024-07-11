@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,9 @@ table tr td input[name=addr] {
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>	
 <body>
-<h3>회원 탈퇴</h3>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:bundle basename="bundle.message">
+<h3><fmt:message key="membershipWithdrawal" /></h3>
 <form action="${pageContext.request.contextPath}/memberDelete" method="post">
 	<table class="w-pct60">
 		<tr>
@@ -44,11 +47,12 @@ table tr td input[name=addr] {
 		    <td>
 		        <input type="text" id="id" name="id" >
 		        <input type="password" id="pw" name="pw" >
-		        <input type="submit" value="탈퇴">
-		        <div class="valid">아이디와 비밀번호를 입력하세요.</div>
+		        <input type="submit" value="DELETE">
+		        <div class="valid"><fmt:message key="enterIdAndPassword" /></div>
 		    </td>
 		</tr>
 	</table>
 </form>
+</fmt:bundle>
 </body>
 </html>
